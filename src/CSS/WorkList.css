@@ -1,0 +1,54 @@
+#BaseListSelect {
+  margin-right: 5px;
+  width: 25%;
+  /* border-radius: 20px; */
+  text-align: center;
+}
+#DirectInput {
+  width: 25%;
+}
+h2 {
+  margin-bottom: 20px;
+  font-size: 130%;
+}
+
+.LiProds {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid silver;
+  border-radius: 20px;
+  padding: 10px 5px 10px 20px;
+  margin: 10px;
+  text-align: left;
+}
+.SpanNameProd {
+  width: 100px;
+}
+.RemBut {
+  width: 30px;
+  height: 30px;
+  color: red;
+  font-size: 15px;
+}
+
+.BayCheck {
+  width: 30px;
+  height: 30px;
+}
+.nav_blk {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.nav_button {
+  padding: 10px 15px;
+  font-size: 20px;
+  font-weight: bolder;
+  color: aliceblue;
+  text-shadow: 1px 1px 2px black;
+  margin: 5px;
+  background-color: #5e7171;
+  border-radius: 30px;
+  border: 1px solid whitesmoke;
+}

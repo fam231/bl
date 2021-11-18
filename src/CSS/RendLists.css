@@ -1,0 +1,62 @@
+.ListsUl {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  list-style: none;
+  width: 400px;
+  margin: 10px auto;
+}
+
+.ListsLi {
+  min-width: 170px;
+  min-height: 230px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0px 20px 20px;
+  margin: 1rem 0.3rem;
+  text-align: left;
+  box-shadow: 2px 2px 8px wheat;
+  padding-bottom: 10px;
+}
+
+.NameList {
+  padding: 10px 10px 5px 10px;
+  border-radius: 20px 0px 0px 0px;
+  background-color: rgb(43, 40, 36);
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+}
+.ControlsButtons {
+  margin-left: 60%;
+}
+
+.ControlButton {
+  width: 40px;
+  height: 40px;
+  background-color: inherit;
+  border: 2px solid grey;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  box-shadow: 1px 1px 2px whitesmoke;
+}
+
+#AddList {
+  padding: 10px 15px;
+  font-size: 20px;
+  font-weight: bolder;
+  color: aliceblue;
+  text-shadow: 1px 1px 2px black;
+  margin: 5px;
+  background-color: #5e7171;
+  border-radius: 30px;
+  border: 1px solid whitesmoke;
+}
+.liPrevivs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 60%;
+}
+.ulPrevivs {
+  padding: 6px;
+  list-style: none;
+}
