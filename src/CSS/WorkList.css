@@ -16,14 +16,14 @@ h2 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border: 1px solid silver;
-  border-radius: 20px;
-  padding: 10px 5px 10px 20px;
-  margin: 10px;
+  /* border: 1px solid silver; */
+  /* border-radius: 20px; */
+  /* padding: 10px 0px 10px 0px; */
+  margin: 5px;
   text-align: left;
 }
 .SpanNameProd {
-  width: 100px;
+  width: 85%;
 }
 .RemBut {
   width: 30px;

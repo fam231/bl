@@ -10,7 +10,7 @@ function App() {
   let [List, setList] = useState([]);
 
   useEffect(() => {
-    fetch("http://bl.mitw.ru/scripts/getListOfList.php")
+    fetch("http://bl.mitw.ru/src/php/getListOfList.php")
       .then((res) => res.json())
       .then(
         (result) => {
@@ -81,6 +81,11 @@ function App() {
     // console.log("List " + List);
     setList(Lists.filter((List) => List.name === ListName));
     setWorkList((work_list_visible = true));
+  }
+  function RemoveList(ListName) {
+    // console.log("List " + List);
+    // setList(Lists.filter((List) => List.name !== ListName));
+    // setWorkList((work_list_visible = true));
   }
   function CopyDeliteList(NewName, OldName, mas_elements) {
     SaveList(NewName, mas_elements);
@@ -201,6 +206,7 @@ function App() {
         <WorkList
           List={List}
           SaveList={SaveList}
+          RemoveList={RemoveList}
           ChangeList={ChangeList}
           BayItem={BayItem}
           RmListElement={RmListElement}

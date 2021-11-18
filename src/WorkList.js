@@ -8,7 +8,7 @@ function WorkList(props) {
 
   function AddElementList(event) {
     event.preventDefault();
-    if (inpNewElem != "") {
+    if (inpNewElem !== "") {
       props.ChangeList(wList.name, inpNewElem.trim());
       setinpNewElem("");
     }
@@ -45,19 +45,19 @@ function WorkList(props) {
             ? {
                 textDecoration: "line-through",
                 color: "red",
-                border: "1px solid red ",
+                // border: "1px solid red ",
               }
             : null
         }
         key={index}
       >
         <span className="SpanNameProd">{item.ElementName}</span>
-        <button
+        <div
           className="RemBut"
           onClick={() => props.RmListElement(wList.name, index)}
         >
           X
-        </button>
+        </div>
 
         <input
           className="BayCheck"

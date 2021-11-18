@@ -8,7 +8,7 @@
 }
 
 .ListsLi {
-  min-width: 170px;
+  min-width: 100%;
   min-height: 230px;
   border: 1px solid #ccc;
   border-radius: 20px 0px 20px 20px;
@@ -19,12 +19,20 @@
 }
 
 .NameList {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding: 10px 10px 5px 10px;
   border-radius: 20px 0px 0px 0px;
   background-color: rgb(43, 40, 36);
   margin-bottom: 5px;
   font-size: 1.2rem;
 }
+
+.DelList {
+  color: red;
+}
+
 .ControlsButtons {
   margin-left: 60%;
 }
@@ -45,18 +53,28 @@
   font-weight: bolder;
   color: aliceblue;
   text-shadow: 1px 1px 2px black;
-  margin: 5px;
+  margin-top: 1em;
   background-color: #5e7171;
   border-radius: 30px;
   border: 1px solid whitesmoke;
+  box-shadow: 1px 1px 5px seashell;
 }
+
+.ulPrevivs {
+  padding: 6px;
+  list-style: none;
+}
+
 .liPrevivs {
+  padding: 0.5em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-size: 60%;
+  background-color: rgb(42, 99, 125);
+  margin-bottom: 2px;
 }
-.ulPrevivs {
-  padding: 6px;
-  list-style: none;
+
+.liPrevivs:nth-child(2n + 1) {
+  background-color: rgb(17, 78, 106);
 }

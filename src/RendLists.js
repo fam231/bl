@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./CSS/RendLists.css";
 
-function RendLists({ Lists, ShowList, AddNewList }) {
+function RendLists({ Lists, ShowList, AddNewList, RemoveList }) {
   let ListOfList = Lists.map((item, index) => {
     // console.log(item.name);
     let liPrevivs = item.mas_elements.map((elem, index) => {
@@ -14,22 +14,21 @@ function RendLists({ Lists, ShowList, AddNewList }) {
     });
 
     return (
-      <li
-        className="ListsLi"
-        key={index}
-        onClick={ShowList.bind(null, item.name)}
-      >
-        <div className="NameList">{item.name}</div>
+      <li className="ListsLi" key={index}>
+        <div className="NameList">
+          <span onClick={ShowList.bind(null, item.name)}>{item.name}</span>
+          <span className="DelList" onClick={RemoveList.bind(null, item.name)}>
+            Del
+          </span>
+        </div>
         <ul className="ulPrevivs">{liPrevivs}</ul>
       </li>
     );
   });
   return (
     <div>
-      <h2>Списки:</h2>
-
       <button id="AddList" onClick={AddNewList}>
-        Добавить
+        +
       </button>
       <ul className="ListsUl">{ListOfList}</ul>
     </div>

@@ -1,5 +1,5 @@
 <?php
-$filelist=glob("../Lists/*");
+$filelist=glob("../../Lists/*");
 $answ = array();
 // for($i=0; $i<count($filelist); $i++){
 //     $answ = $answ . $filelist[$i] . "+";
