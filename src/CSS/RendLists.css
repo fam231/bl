@@ -55,7 +55,7 @@
   text-shadow: 1px 1px 2px black;
   margin-top: 1em;
   background-color: #5e7171;
-  border-radius: 30px;
+  border-radius: 50%;
   border: 1px solid whitesmoke;
   box-shadow: 1px 1px 5px seashell;
 }
@@ -66,11 +66,11 @@
 }
 
 .liPrevivs {
-  padding: 0.5em;
+  padding: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 60%;
+  font-size: 0.6em;
   background-color: rgb(42, 99, 125);
   margin-bottom: 2px;
 }

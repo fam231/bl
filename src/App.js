@@ -82,10 +82,22 @@ function App() {
     setList(Lists.filter((List) => List.name === ListName));
     setWorkList((work_list_visible = true));
   }
-  function RemoveList(ListName) {
-    // console.log("List " + List);
-    // setList(Lists.filter((List) => List.name !== ListName));
-    // setWorkList((work_list_visible = true));
+  async function RemoveList(ListName) {
+    setLists(Lists.filter((List) => List.name !== ListName));
+    let response = await fetch("http://bl.mitw.ru/src/php/Remove_List.php", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body: JSON.stringify(ListName),
+    });
+
+    if (response.ok) {
+      // если HTTP-статус в диапазоне 200-299
+      // получаем тело ответа (см. про этот метод ниже)
+      // let json = await response.json();
+      console.log(response.text());
+    } else {
+      alert("Ошибка HTTP: " + response.status);
+    }
   }
   function CopyDeliteList(NewName, OldName, mas_elements) {
     SaveList(NewName, mas_elements);
@@ -113,7 +125,7 @@ function App() {
     });
     let query = { NameList, dataStr };
 
-    let response = await fetch("./scripts/Save_List.php", {
+    let response = await fetch("http://bl.mitw.ru/src/php/Save_List.php", {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(query),
@@ -123,7 +135,12 @@ function App() {
       // если HTTP-статус в диапазоне 200-299
       // получаем тело ответа (см. про этот метод ниже)
       // let json = await response.json();
+      // alert("Отправил")
       console.log(response.text());
+      let lists = Lists;
+      lists.push({name:NameList, mas_elements:masList});
+      setLists(lists);
+      setWorkList(false)
     } else {
       alert("Ошибка HTTP: " + response.status);
     }
@@ -171,7 +188,7 @@ function App() {
   function BayItem(NameList, IndexElement) {
     setLists(
       Lists.map((item) => {
-        if (item.name == NameList) {
+        if (item.name === NameList) {
           item.mas_elements[IndexElement].bay_state = !item.mas_elements[
             IndexElement
           ].bay_state;
@@ -206,7 +223,6 @@ function App() {
         <WorkList
           List={List}
           SaveList={SaveList}
-          RemoveList={RemoveList}
           ChangeList={ChangeList}
           BayItem={BayItem}
           RmListElement={RmListElement}
@@ -215,7 +231,7 @@ function App() {
           setWorkList={setWorkList}
         />
       ) : (
-        <RendLists Lists={Lists} ShowList={ShowList} AddNewList={AddNewList} />
+        <RendLists Lists={Lists} ShowList={ShowList} RemoveList={RemoveList} AddNewList={AddNewList} />
       )}
     </div>
   );

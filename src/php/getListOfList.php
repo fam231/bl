@@ -6,7 +6,7 @@ $answ = array();
 // }
 
 foreach($filelist as $filepath){
-        $filename = explode("../Lists/", $filepath);
+        $filename = explode("../../Lists/", $filepath);
 	$item_answ = array($filename[1]);
 	//$fileItems = array_merge($file[1], file("../Lists/".$file[1]));
        	array_push($item_answ, file($filepath));

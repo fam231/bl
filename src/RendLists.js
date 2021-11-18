@@ -4,7 +4,7 @@ import "./CSS/RendLists.css";
 
 function RendLists({ Lists, ShowList, AddNewList, RemoveList }) {
   let ListOfList = Lists.map((item, index) => {
-    // console.log(item.name);
+    console.log(item.name);
     let liPrevivs = item.mas_elements.map((elem, index) => {
       return (
         <li key={index} className="liPrevivs">

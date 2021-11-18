@@ -78,9 +78,9 @@ function WorkList(props) {
       <h2 onClick={RenameList}>{wList.name}</h2>
       <div>
         <div className="nav_blk">
-          <span className="nav_button" onClick={() => props.setWorkList(false)}>
+          {/* <span className="nav_button" onClick={() => props.setWorkList(false)}>
             Списки
-          </span>
+          </span> */}
           <span
             className="nav_button"
             onClick={props.SaveList.bind(null, wList.name, wList.mas_elements)}

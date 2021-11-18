@@ -10,13 +10,13 @@ $json_obj = json_decode($json_str);
 $NameFile = $json_obj->NameList;
 $dataStr = $json_obj->dataStr;
 
-//$Corect_file_name = str_replace( " " , "\\ ", $NameFile);
+// $Corect_file_name = str_replace( " " , "\\ ", $NameFile);
 //exec("echo $Corect_file_name >> ../Lists/log");
 //exec("echo $NameFile >> ../Lists/log");
 if($dataStr == "") {
-    exec("rm ../Lists/$NameFile");
+    exec("rm ../../Lists/$NameFile");
 }else{
-   $Nfile=fopen("../Lists/".$NameFile, "w");
+   $Nfile=fopen("../../Lists/".$NameFile, "w");
    fwrite($Nfile, $dataStr ); 
    fclose($Nfile);
 };
