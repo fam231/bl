@@ -136,11 +136,11 @@ function App() {
       // получаем тело ответа (см. про этот метод ниже)
       // let json = await response.json();
       // alert("Отправил")
-      console.log(response.text());
-      let lists = Lists;
-      lists.push({name:NameList, mas_elements:masList});
-      setLists(lists);
-      setWorkList(false)
+      // console.log(response.text());
+      // let lists = Lists;
+      // lists.push({ name: NameList, mas_elements: masList });
+      // setLists(lists);
+      setWorkList(false);
     } else {
       alert("Ошибка HTTP: " + response.status);
     }
@@ -231,7 +231,13 @@ function App() {
           setWorkList={setWorkList}
         />
       ) : (
-        <RendLists Lists={Lists} ShowList={ShowList} RemoveList={RemoveList} AddNewList={AddNewList} />
+        <RendLists
+          Lists={Lists}
+          ShowList={ShowList}
+          RemoveList={RemoveList}
+          AddNewList={AddNewList}
+          BayItem={BayItem}
+        />
       )}
     </div>
   );

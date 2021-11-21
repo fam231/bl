@@ -56,7 +56,7 @@ function WorkList(props) {
           className="RemBut"
           onClick={() => props.RmListElement(wList.name, index)}
         >
-          X
+          Del
         </div>
 
         <input
