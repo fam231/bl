@@ -90,6 +90,7 @@ function WorkList(props) {
         </div>
 
         <form
+          id="AddForm"
           onSubmit={
             AddElementList
             //(event) => props.CangeList(event, wList.name, inpNewElem)
@@ -109,7 +110,6 @@ function WorkList(props) {
             value={inpNewElem}
             onChange={(event) => setinpNewElem(event.target.value)}
           />
-
           <button className="nav_button" type="submit">
             Добавить
           </button>

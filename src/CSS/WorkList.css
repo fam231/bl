@@ -1,15 +1,22 @@
 #BaseListSelect {
   margin-right: 5px;
   width: 25%;
+  min-height: 1.5em;
   /* border-radius: 20px; */
   text-align: center;
 }
 #DirectInput {
-  width: 25%;
+  width: 60%;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px black inset;
+  padding: 5px 10px 5px 10px;
+}
+#AddForm {
+  text-align: right;
 }
 h2 {
   margin-bottom: 20px;
-  font-size: 130%;
+  font-size: 2em;
 }
 
 .LiProds {
@@ -39,16 +46,16 @@ h2 {
 .nav_blk {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: start;
 }
 .nav_button {
-  padding: 10px 15px;
+  padding: 6px 15px;
   font-size: 20px;
   font-weight: bolder;
   color: aliceblue;
   text-shadow: 1px 1px 2px black;
-  margin: 5px;
-  background-color: #5e7171;
-  border-radius: 30px;
+  margin: 0.5em 0.5em 0.8em 0.5em;
+  background-color: #287b7b;
+  border-radius: 6px;
   border: 1px solid whitesmoke;
 }
