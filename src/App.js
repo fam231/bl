@@ -10,7 +10,7 @@ function App() {
   let [List, setList] = useState([]);
 
   useEffect(() => {
-    fetch("http://bl.mitw.ru/src/php/getListOfList.php")
+    fetch("./scripts/getListOfList.php")
       .then((res) => res.json())
       .then(
         (result) => {
@@ -18,13 +18,13 @@ function App() {
           //   isLoaded: true,
           //   Lists: result,
           // });
-
+          let baseList = "";
           result.forEach((item) => {
             if (item[0] === "Base_List") {
-              BaseList = String(item[1]).split(";");
+              baseList = String(item[1]).split(";");
             }
           });
-          setBaseList(BaseList);
+          setBaseList(baseList);
           setLists(
             result
               .filter((item) => {
@@ -32,6 +32,7 @@ function App() {
                 if (item[0] !== "Base_List") {
                   return item;
                 }
+                return undefined;
               })
               .map((item) => {
                 const elem = { name: item[0], mas_elements: [] };
@@ -84,7 +85,7 @@ function App() {
   }
   async function RemoveList(ListName) {
     setLists(Lists.filter((List) => List.name !== ListName));
-    let response = await fetch("http://bl.mitw.ru/src/php/Remove_List.php", {
+    let response = await fetch("./scripts/Remove_List.php", {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(ListName),
@@ -125,7 +126,7 @@ function App() {
     });
     let query = { NameList, dataStr };
 
-    let response = await fetch("http://bl.mitw.ru/src/php/Save_List.php", {
+    let response = await fetch("./scripts/Save_List.php", {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(query),
