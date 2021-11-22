@@ -7,7 +7,7 @@ $json_str = file_get_contents('php://input');
 $NameFile = json_decode($json_str);
 // $NameFile = "Фикс прайс";
 $NameFile_vsOutSpice = str_replace( ' ' , '\ ', $NameFile);
-exec("rm ../../Lists/$NameFile_vsOutSpice");
+exec("rm ../Lists/$NameFile_vsOutSpice");
 // if ( $del ){
 //     echo("Список ".$NameFile." Удален");
 // }else{

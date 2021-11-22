@@ -1,12 +1,12 @@
 <?php
-$filelist=glob("../../Lists/*");
+$filelist=glob("../Lists/*");
 $answ = array();
 // for($i=0; $i<count($filelist); $i++){
 //     $answ = $answ . $filelist[$i] . "+";
 // }
 
 foreach($filelist as $filepath){
-        $filename = explode("../../Lists/", $filepath);
+        $filename = explode("../Lists/", $filepath);
 	$item_answ = array($filename[1]);
 	//$fileItems = array_merge($file[1], file("../Lists/".$file[1]));
        	array_push($item_answ, file($filepath));

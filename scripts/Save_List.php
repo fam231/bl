@@ -14,9 +14,9 @@ $dataStr = $json_obj->dataStr;
 //exec("echo $Corect_file_name >> ../Lists/log");
 //exec("echo $NameFile >> ../Lists/log");
 if($dataStr == "") {
-    exec("rm ../../Lists/$NameFile");
+    exec("rm ../Lists/$NameFile");
 }else{
-   $Nfile=fopen("../../Lists/".$NameFile, "w");
+   $Nfile=fopen("../Lists/".$NameFile, "w");
    fwrite($Nfile, $dataStr ); 
    fclose($Nfile);
 };
