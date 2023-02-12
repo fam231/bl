@@ -1,0 +1,61 @@
+#BaseListSelect {
+  margin-right: 5px;
+  width: 25%;
+  min-height: 1.5em;
+  /* border-radius: 20px; */
+  text-align: center;
+}
+#DirectInput {
+  width: 60%;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px black inset;
+  padding: 5px 10px 5px 10px;
+}
+#AddForm {
+  text-align: right;
+}
+h2 {
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.LiProds {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* border: 1px solid silver; */
+  /* border-radius: 20px; */
+  /* padding: 10px 0px 10px 0px; */
+  margin: 5px;
+  text-align: left;
+}
+.SpanNameProd {
+  width: 85%;
+}
+.RemBut {
+  width: 30px;
+  height: 30px;
+  color: red;
+  font-size: 15px;
+}
+
+.BayCheck {
+  width: 30px;
+  height: 30px;
+}
+.nav_blk {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+.nav_button {
+  padding: 6px 15px;
+  font-size: 20px;
+  font-weight: bolder;
+  color: aliceblue;
+  text-shadow: 1px 1px 2px black;
+  margin: 0.5em 0.5em 0.8em 0.5em;
+  background-color: #287b7b;
+  border-radius: 6px;
+  border: 1px solid whitesmoke;
+}
