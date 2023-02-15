@@ -10,7 +10,7 @@ function App() {
   let [List, setList] = useState(null);
 
   useEffect(() => {
-    fetch("/lists")
+    fetch("bl.ru:3001/lists")
       .then((res) => res.json())
       .then(
         (result) => {
