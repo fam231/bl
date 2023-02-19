@@ -6,8 +6,8 @@ ADD . .
 RUN npm run build
 
 
-FROM httpd:2.4
+FROM nginx
 COPY --from=node /opt/app/build /usr/local/apache2/htdocs
 #COPY ./my-httpd.conf /usr/local/apache2/conf/httpd.conf
 #COPY ./apps/app/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 81/tcp
+EXPOSE 80/tcp
