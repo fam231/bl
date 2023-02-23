@@ -19,7 +19,7 @@ const connection = mysql.createConnection({
 
 function GetAllLists() {
   let lists = { baseList: [], allList: [] };
-  let sql = "SELECT * FROM tasks ";
+  let sql = "SELECT * FROM lists ";
   //   connection.connect(function (err) {
   //     if (err) {
   //       return console.error("Ошибка: " + err.message);
