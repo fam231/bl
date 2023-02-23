@@ -97,12 +97,20 @@ async function GetAllLists() {
     // connection.end();
   });
 }
-lists = await GetAllLists();
+
 //Роуты
 
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`);
-});
+async function StartApp(params) {
+  try {
+    lists = await GetAllLists();
+    app.listen(PORT, () => {
+      console.log(`server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.log("error: ", error);
+  }
+}
+StartApp();
 app.get("/lists", (req, res) => {
   res.json(lists);
 });
