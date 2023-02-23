@@ -19,58 +19,57 @@ const connection = mysql.createConnection({
 
 function GetAllLists() {
   let lists = { baseList: [], allList: [] };
+  let sql = "SELECT * FROM tasks ";
+  //   connection.connect(function (err) {
+  //     if (err) {
+  //       return console.error("Ошибка: " + err.message);
+  //     } else {
+  //       console.log("Подключение к серверу MySQL успешно установлено");
+  //     }
+  //   });
+
   connection.connect(function (err) {
-    if (err) {
-      return console.error("Ошибка: " + err.message);
-    } else {
-      console.log("Подключение к серверу MySQL успешно установлено");
-    }
-  });
+    if (err) throw console.error("Ошибка: " + err.message);
+    console.log("Подключение к серверу MySQL успешно установлено");
+    connection.query(sql, function (err, result) {
+      if (err) throw console.error("Ошибка: " + err.message);
 
-  connection.query("SELECT * FROM lists", function (err, results, fields) {
-    console.log(err);
-    console.log(results); // собственно данные
-    // console.log(fields); // мета-данные полей
+      console.log("Result: " + typeof result);
 
-    // console.log("results: " + typeof results);
-    //   results:  [
-    //     { listName: 'test', item: 'Яблоки', state: 0, id: 1 },
-    //     { listName: 'test', item: 'Груши', state: 0, id: 2 },
-    //     { listName: 'baseList', item: 'Чай', state: 0, id: 3 },
-    //     { listName: 'test', item: 'Сахар', state: 0, id: 4 }
-    //    ]
-    results.forEach((element) => {
-      switch (element.listName) {
-        case "baseList":
-          lists.baseList.push({
-            ElementName: element.item,
-            bay_state: element.state,
-          });
-          break;
-
-        default:
-          let indexList = lists.allList.indexOf(element.listName);
-          if (indexList < 0) {
-            lists.allList.push({
-              name: element.listName,
-              mas_elements: [
-                { ElementName: element.item, bay_state: element.state },
-              ],
-            });
-          } else {
-            lists.allList[indexList].mas_elements.push({
+      result.forEach((element) => {
+        switch (element.listName) {
+          case "baseList":
+            lists.baseList.push({
               ElementName: element.item,
               bay_state: element.state,
             });
-          }
-          break;
-      }
-    });
-    console.log("lists: ", lists);
-    return lists;
-  });
+            break;
 
-  // connection.end();
+          default:
+            let indexList = lists.allList.indexOf(element.listName);
+            if (indexList < 0) {
+              lists.allList.push({
+                name: element.listName,
+                mas_elements: [
+                  { ElementName: element.item, bay_state: element.state },
+                ],
+              });
+            } else {
+              lists.allList[indexList].mas_elements.push({
+                ElementName: element.item,
+                bay_state: element.state,
+              });
+            }
+            break;
+        }
+      });
+
+      console.log("lists: ", lists);
+      return lists;
+    });
+
+    // connection.end();
+  });
 }
 
 //Роуты
