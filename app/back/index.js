@@ -30,7 +30,7 @@ function GetAllLists() {
   connection.query("SELECT * FROM lists", function (err, results, fields) {
     console.log(err);
     console.log(results); // собственно данные
-    console.log(fields); // мета-данные полей
+    // console.log(fields); // мета-данные полей
 
     // console.log("results: " + typeof results);
     //   results:  [
@@ -113,5 +113,6 @@ app.get("/lists", (req, res) => {
     let res = await GetAllLists();
     return res;
   }
-  res.json(getLists());
+
+  console.log("res.json(getLists()): ", res.json(getLists()));
 });
