@@ -32,11 +32,11 @@ const connection = mysql.createConnection({
 //    console.log(results); // собственно данные
 //    console.log(fields); // мета-данные полей
 // });
-function GetAllLists() {
+async function GetAllLists() {
   let lists = { baseList: [], allList: [] };
   let getAllLists = "SELECT * FROM lists ";
 
-  connection.connect(function (err) {
+  await connection.connect(function (err) {
     if (err) throw console.error("Ошибка: " + err);
     console.log("Подключение к серверу MySQL успешно установлено");
     connection.query(getAllLists, function (err, result) {
