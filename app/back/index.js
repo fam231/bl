@@ -83,20 +83,46 @@ function GetAllLists() {
         break;
     }
   });
-
+  console.log("lists: ", lists);
   return lists;
 }
 
 //Роуты
 // let lists = {
-//     baseList: [{ElementName:"Апельсин",bay_state: false},{ElementName:"Мандарин",bay_state: false},{ElementName:"Яблоко",bay_state: false }],
-//     allList:[
-//         {name: "works", mas_elements: [{ElementName:"Сходить",bay_state: false},{ElementName:"Заказать",bay_state: false},{ElementName:"Забить",bay_state: false }]},
-//         {name:  "byus", mas_elements: [{ElementName:"Апельсин",bay_state: false},{ElementName:"Мандарин",bay_state: false},{ElementName:"Яблоко",bay_state: false }]},
-//         {name:  "date", mas_elements: [{ElementName:"11",bay_state: false},{ElementName:"12",bay_state: true},{ElementName:"13",bay_state: false }]}
-//     ]
-// }
+//   baseList: [
+//     { ElementName: "Апельсин", bay_state: false },
+//     { ElementName: "Мандарин", bay_state: false },
+//     { ElementName: "Яблоко", bay_state: false },
+//   ],
+//   allList: [
+//     {
+//       name: "works",
+//       mas_elements: [
+//         { ElementName: "Сходить", bay_state: false },
+//         { ElementName: "Заказать", bay_state: false },
+//         { ElementName: "Забить", bay_state: false },
+//       ],
+//     },
+//     {
+//       name: "byus",
+//       mas_elements: [
+//         { ElementName: "Апельсин", bay_state: false },
+//         { ElementName: "Мандарин", bay_state: false },
+//         { ElementName: "Яблоко", bay_state: false },
+//       ],
+//     },
+//     {
+//       name: "date",
+//       mas_elements: [
+//         { ElementName: "11", bay_state: false },
+//         { ElementName: "12", bay_state: true },
+//         { ElementName: "13", bay_state: false },
+//       ],
+//     },
+//   ],
+// };
 
 app.get("/lists", (req, res) => {
+  console.log("lists: ", lists);
   res.json(GetAllLists());
 });
