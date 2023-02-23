@@ -19,7 +19,6 @@ const connection = mysql.createConnection({
 
 function GetAllLists() {
   let lists = { baseList: [], allList: [] };
-
   connection.connect(function (err) {
     if (err) {
       return console.error("Ошибка: " + err.message);
@@ -73,7 +72,7 @@ function GetAllLists() {
 
   // connection.end();
 }
-GetAllLists();
+
 //Роуты
 // let lists = {
 //   baseList: [
@@ -110,5 +109,9 @@ GetAllLists();
 // };
 
 app.get("/lists", (req, res) => {
-  res.json(lists);
+  async function getLists() {
+    let res = await GetAllLists();
+    return res;
+  }
+  res.json(getLists());
 });
