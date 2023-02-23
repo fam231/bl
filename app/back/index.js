@@ -108,10 +108,11 @@ function GetAllLists() {
 // };
 
 app.get("/lists", (req, res) => {
-  async function getLists() {
-    let res = await GetAllLists();
-    return res;
-  }
+  // async function getLists() {
+  //   let res = await GetAllLists();
+  //   return res;
+  // }
 
-  console.log("res.json(getLists()): ", res.json(getLists()));
+  // console.log("res.json(getLists()): ",
+  res.json(GetAllLists());
 });
