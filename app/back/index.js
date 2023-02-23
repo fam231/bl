@@ -32,21 +32,60 @@ const connection = mysql.createConnection({
 //    console.log(results); // собственно данные
 //    console.log(fields); // мета-данные полей
 // });
+function GetAllLists() {
+  let strOfLists = [];
+  let lists = { baseList: [], allList: [] };
+  let getAllLists = "SELECT * FROM lists ";
 
-let lists = {};
-let getAllLists = "SELECT * FROM lists ";
-
-connection.connect(function (err) {
-  if (err) throw console.error("Ошибка: " + err);
-  console.log("Подключение к серверу MySQL успешно установлено");
-  connection.query(getAllLists, function (err, result) {
+  connection.connect(function (err) {
     if (err) throw console.error("Ошибка: " + err);
-    console.log("Result: " + typeof result);
-    console.log("result: ", result);
-    lists = result;
+    console.log("Подключение к серверу MySQL успешно установлено");
+    connection.query(getAllLists, function (err, result) {
+      if (err) throw console.error("Ошибка: " + err);
+      console.log("Result: " + typeof result);
+      console.log("result: ", result);
+      strOfLists = result;
+      //   result:  [
+      //     { listName: 'test', item: 'Яблоки', state: 0, id: 1 },
+      //     { listName: 'test', item: 'Груши', state: 0, id: 2 },
+      //     { listName: 'baseList', item: 'Чай', state: 0, id: 3 },
+      //     { listName: 'test', item: 'Сахар', state: 0, id: 4 }
+      //    ]
+    });
   });
-});
-// connection.end();
+  connection.end();
+
+  strOfLists.forEach((element) => {
+    switch (element.listName) {
+      case baseList:
+        lists.baseList.push({
+          ElementName: element.item,
+          bay_state: element.state,
+        });
+        break;
+
+      default:
+        let indexList = lists.allList.indexOf(element.listName);
+        if (indexList < 0) {
+          lists.allList.push({
+            name: element.listName,
+            mas_elements: [
+              { ElementName: element.item, bay_state: element.state },
+            ],
+          });
+        } else {
+          lists.allList[indexList].mas_elements.push({
+            ElementName: element.item,
+            bay_state: element.state,
+          });
+        }
+
+        break;
+    }
+  });
+
+  return lists;
+}
 
 //Роуты
 // let lists = {
@@ -59,5 +98,6 @@ connection.connect(function (err) {
 // }
 
 app.get("/lists", (req, res) => {
-  res.json(lists);
+  console.log("GetAllLists(): ", GetAllLists());
+  //   res.json(lists);
 });
