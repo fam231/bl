@@ -88,8 +88,9 @@ async function GetAllLists() {
             }
             break;
         }
+        return lists;
       });
-      return lists;
+      console.log("Lists in GetallList: " + lists);
     });
 
     // connection.end();
