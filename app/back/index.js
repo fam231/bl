@@ -112,5 +112,6 @@ async function StartApp(params) {
 }
 StartApp();
 app.get("/lists", (req, res) => {
+  console.log("lists in get: " + lists);
   res.json(lists);
 });
