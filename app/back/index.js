@@ -53,7 +53,7 @@ function GetAllLists() {
       //    ]
     });
   });
-  connection.end();
+  //   connection.end();
 
   strOfLists.forEach((element) => {
     switch (element.listName) {
@@ -98,6 +98,5 @@ function GetAllLists() {
 // }
 
 app.get("/lists", (req, res) => {
-  console.log("GetAllLists(): ", GetAllLists());
-  //   res.json(lists);
+  res.json(GetAllLists());
 });
