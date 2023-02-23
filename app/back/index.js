@@ -89,8 +89,6 @@ async function GetAllLists() {
             break;
         }
       });
-
-      console.log("lists: ", lists);
       return lists;
     });
 
@@ -99,10 +97,11 @@ async function GetAllLists() {
 }
 
 //Роуты
-
+let lists2 = []
 async function StartApp(params) {
   try {
-    lists = await GetAllLists();
+    let lists2 = await GetAllLists();
+    console.log('lists2: ', lists2);
     app.listen(PORT, () => {
       console.log(`server running on port ${PORT}`);
     });
@@ -112,6 +111,6 @@ async function StartApp(params) {
 }
 StartApp();
 app.get("/lists", (req, res) => {
-  console.log("lists in get: " + lists);
-  res.json(lists);
+  console.log("lists in get: " + lists2);
+  res.json(lists2);
 });
