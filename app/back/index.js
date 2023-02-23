@@ -17,9 +17,8 @@ const connection = mysql.createConnection({
   password: "example",
 });
 
-async function GetAllLists() {
+function GetAllLists() {
   let lists = { baseList: [], allList: [] };
-  let getAllLists = "SELECT * FROM lists";
 
   connection.connect(function (err) {
     if (err) {
@@ -74,7 +73,7 @@ async function GetAllLists() {
 
   // connection.end();
 }
-
+GetAllLists();
 //Роуты
 // let lists = {
 //   baseList: [
@@ -111,5 +110,5 @@ async function GetAllLists() {
 // };
 
 app.get("/lists", (req, res) => {
-  res.json(GetAllLists());
+  res.json(lists);
 });
