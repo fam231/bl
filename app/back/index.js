@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.listen(PORT, () => {
-  console.log(`server running op port ${PORT}`);
+  console.log(`server running on port ${PORT}`);
 });
 
 const mysql = require("mysql2");
@@ -17,7 +17,7 @@ const connection = mysql.createConnection({
   password: "example",
 });
 
-function GetAllLists() {
+GetAllLists = () => {
   let lists = { baseList: [], allList: [] };
   let sql = "SELECT * FROM lists ";
   //   connection.connect(function (err) {
@@ -70,7 +70,7 @@ function GetAllLists() {
 
     // connection.end();
   });
-}
+};
 
 //Роуты
 // let lists = {
@@ -114,5 +114,5 @@ app.get("/lists", (req, res) => {
   // }
 
   // console.log("res.json(getLists()): ",
-  res.json(GetAllLists());
+  res.json(GetAllLists);
 });
