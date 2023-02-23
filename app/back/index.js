@@ -40,13 +40,13 @@ connection.connect(function (err) {
   if (err) throw console.error("Ошибка: " + err);
   console.log("Подключение к серверу MySQL успешно установлено");
   connection.query(getAllLists, function (err, result) {
-    if (err) throw err;
+    if (err) throw console.error("Ошибка: " + err);
     console.log("Result: " + typeof result);
     console.log("result: ", result);
     lists = result;
   });
 });
-connection.end();
+// connection.end();
 
 //Роуты
 // let lists = {
