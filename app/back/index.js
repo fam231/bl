@@ -50,7 +50,7 @@ function GetAllLists() {
       //    ]
       result.forEach((element) => {
         switch (element.listName) {
-          case baseList:
+          case "baseList":
             lists.baseList.push({
               ElementName: element.item,
               bay_state: element.state,
