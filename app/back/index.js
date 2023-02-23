@@ -123,6 +123,5 @@ function GetAllLists() {
 // };
 
 app.get("/lists", (req, res) => {
-  console.log("lists: ", lists);
   res.json(GetAllLists());
 });
