@@ -1,13 +1,6 @@
 const express = require("express");
-
 const PORT = process.env.PORT || 3001;
-
 const app = express();
-
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`);
-});
-
 const mysql = require("mysql2");
 
 const connection = mysql.createConnection({
@@ -16,9 +9,42 @@ const connection = mysql.createConnection({
   database: "bldb",
   password: "example",
 });
+let lists = {
+  baseList: [
+    { ElementName: "Апельсин", bay_state: false },
+    { ElementName: "Мандарин", bay_state: false },
+    { ElementName: "Яблоко", bay_state: false },
+  ],
+  allList: [
+    {
+      name: "works",
+      mas_elements: [
+        { ElementName: "Сходить", bay_state: false },
+        { ElementName: "Заказать", bay_state: false },
+        { ElementName: "Забить", bay_state: false },
+      ],
+    },
+    {
+      name: "byus",
+      mas_elements: [
+        { ElementName: "Апельсин", bay_state: false },
+        { ElementName: "Мандарин", bay_state: false },
+        { ElementName: "Яблоко", bay_state: false },
+      ],
+    },
+    {
+      name: "date",
+      mas_elements: [
+        { ElementName: "11", bay_state: false },
+        { ElementName: "12", bay_state: true },
+        { ElementName: "13", bay_state: false },
+      ],
+    },
+  ],
+};
 
-GetAllLists = () => {
-  let lists = { baseList: [], allList: [] };
+async function GetAllLists() {
+  lists = { baseList: [], allList: [] };
   let sql = "SELECT * FROM lists ";
   //   connection.connect(function (err) {
   //     if (err) {
@@ -70,49 +96,13 @@ GetAllLists = () => {
 
     // connection.end();
   });
-};
-
+}
+lists = await GetAllLists();
 //Роуты
-// let lists = {
-//   baseList: [
-//     { ElementName: "Апельсин", bay_state: false },
-//     { ElementName: "Мандарин", bay_state: false },
-//     { ElementName: "Яблоко", bay_state: false },
-//   ],
-//   allList: [
-//     {
-//       name: "works",
-//       mas_elements: [
-//         { ElementName: "Сходить", bay_state: false },
-//         { ElementName: "Заказать", bay_state: false },
-//         { ElementName: "Забить", bay_state: false },
-//       ],
-//     },
-//     {
-//       name: "byus",
-//       mas_elements: [
-//         { ElementName: "Апельсин", bay_state: false },
-//         { ElementName: "Мандарин", bay_state: false },
-//         { ElementName: "Яблоко", bay_state: false },
-//       ],
-//     },
-//     {
-//       name: "date",
-//       mas_elements: [
-//         { ElementName: "11", bay_state: false },
-//         { ElementName: "12", bay_state: true },
-//         { ElementName: "13", bay_state: false },
-//       ],
-//     },
-//   ],
-// };
 
+app.listen(PORT, () => {
+  console.log(`server running on port ${PORT}`);
+});
 app.get("/lists", (req, res) => {
-  // async function getLists() {
-  //   let res = await GetAllLists();
-  //   return res;
-  // }
-
-  // console.log("res.json(getLists()): ",
-  res.json(GetAllLists);
+  res.json(lists);
 });
