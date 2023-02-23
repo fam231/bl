@@ -42,8 +42,7 @@ function GetAllLists() {
     console.log("Подключение к серверу MySQL успешно установлено");
     connection.query(getAllLists, function (err, result) {
       if (err) throw console.error("Ошибка: " + err);
-      console.log("Result: " + typeof result);
-      console.log("result: ", result);
+      // console.log("Result: " + typeof result);
       strOfLists = result;
       //   result:  [
       //     { listName: 'test', item: 'Яблоки', state: 0, id: 1 },
@@ -83,6 +82,7 @@ function GetAllLists() {
         break;
     }
   });
+
   console.log("lists: ", lists);
   return lists;
 }
