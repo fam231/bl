@@ -106,7 +106,10 @@ async function GetAllLists() {
 
       default:
         let indexList = lists.allList.indexOf(element.listName);
+        console.log("element.listName: ", element.listName);
+        console.log("indexList: ", indexList);
         if (indexList < 0) {
+          console.log("Добавляет Лист");
           lists.allList.push({
             name: element.listName,
             mas_elements: [
@@ -130,12 +133,13 @@ async function StartApp() {
       console.log(`Сервер запущен на порту ${PORT}`);
     });
 
-    app.get("/lists", async (req, res) => {
-      let lists = await GetAllLists();
-      console.log("lists in get: ");
-      console.log(lists2);
-      console.log(lists);
-      res.json(lists);
+    app.get("/lists", (req, res) => {
+      GetAllLists();
+      // let lists = await GetAllLists();
+      // console.log("lists in get: ");
+      // console.log(lists2);
+      // console.log(lists);
+      res.json(lists2);
     });
   } catch (error) {
     console.log("Ошибка запуска сервера: ", error);
