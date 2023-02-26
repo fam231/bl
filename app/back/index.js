@@ -103,23 +103,34 @@ async function GetAllLists() {
         break;
 
       default:
-        lists = lists.allList.map((listElem) => {
-          if (listElem.name === element.listName) {
-            console.log("Имя листа найдено в обьекте: ", listElem.name);
-            listElem.mas_elements.push({
-              ElementName: element.item,
-              bay_state: element.state,
-            });
-          } else {
-            console.log("Имя листа НЕ найдено в обьекте: ", listElem.name);
-            lists.allList.push({
-              name: element.listName,
-              mas_elements: [
-                { ElementName: element.item, bay_state: element.state },
-              ],
-            });
-          }
-        });
+        console.log("I am in default lists.allList: ", lists.allList);
+        if (lists.allList.length <= 0) {
+          console.log("allList Пуст: ", listElem.name);
+          lists.allList.push({
+            name: element.listName,
+            mas_elements: [
+              { ElementName: element.item, bay_state: element.state },
+            ],
+          });
+        } else {
+          lists = lists.allList.map((listElem) => {
+            if (listElem.name === element.listName) {
+              console.log("Имя листа найдено в обьекте: ", listElem.name);
+              listElem.mas_elements.push({
+                ElementName: element.item,
+                bay_state: element.state,
+              });
+            } else {
+              console.log("Имя листа НЕ найдено в обьекте: ", listElem.name);
+              lists.allList.push({
+                name: element.listName,
+                mas_elements: [
+                  { ElementName: element.item, bay_state: element.state },
+                ],
+              });
+            }
+          });
+        }
     }
   });
   console.log("lists: ");
