@@ -91,8 +91,6 @@ async function GetAllLists() {
   let sqlReq = "SELECT * FROM lists ";
   const conn = await mysql.createConnection(connection);
   const [rows, fields] = await conn.execute(sqlReq, [2, 2]);
-  console.log("rows: ");
-  console.log(rows);
   await conn.end();
 
   rows.forEach((element) => {
@@ -107,11 +105,13 @@ async function GetAllLists() {
       default:
         lists = lists.allList.map((listElem) => {
           if (listElem.name === element.listName) {
+            console.log("Имя листа найдено в обьекте: ", listElem.name);
             listElem.mas_elements.push({
               ElementName: element.item,
               bay_state: element.state,
             });
           } else {
+            console.log("Имя листа НЕ найдено в обьекте: ", listElem.name);
             lists.allList.push({
               name: element.listName,
               mas_elements: [
@@ -122,6 +122,9 @@ async function GetAllLists() {
         });
     }
   });
+  console.log("lists: ");
+  console.log(lists);
+
   return lists;
 }
 
