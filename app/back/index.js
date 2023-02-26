@@ -72,34 +72,7 @@ const pool = mysql.createPool({
 
 //   // connection.end();
 
-//   // answ.forEach((element) => {
-//   //         switch (element.listName) {
-//   //           case "baseList":
-//   //             lists.baseList.push({
-//   //               ElementName: element.item,
-//   //               bay_state: element.state,
-//   //             });
-//   //             break;
-
-//   //           default:
-//   //             let indexList = lists.allList.indexOf(element.listName);
-//   //             if (indexList < 0) {
-//   //               lists.allList.push({
-//   //                 name: element.listName,
-//   //                 mas_elements: [
-//   //                   { ElementName: element.item, bay_state: element.state },
-//   //                 ],
-//   //               });
-//   //             } else {
-//   //               lists.allList[indexList].mas_elements.push({
-//   //                 ElementName: element.item,
-//   //                 bay_state: element.state,
-//   //               });
-//   //             }
-//   //             break;
-//   //         }
-//   //     });
-// }
+//   // answ.
 
 //Роуты
 
@@ -114,8 +87,36 @@ const pool = mysql.createPool({
 // }
 // StartApp();
 async function GetAllLists() {
+  lists = { baseList: [], allList: [] };
   const result = await pool.query("SELECT * from lists");
-  return result;
+  result.forEach((element) => {
+    switch (element.listName) {
+      case "baseList":
+        lists.baseList.push({
+          ElementName: element.item,
+          bay_state: element.state,
+        });
+        break;
+
+      default:
+        let indexList = lists.allList.indexOf(element.listName);
+        if (indexList < 0) {
+          lists.allList.push({
+            name: element.listName,
+            mas_elements: [
+              { ElementName: element.item, bay_state: element.state },
+            ],
+          });
+        } else {
+          lists.allList[indexList].mas_elements.push({
+            ElementName: element.item,
+            bay_state: element.state,
+          });
+        }
+        break;
+    }
+  });
+  return lists;
 }
 
 app.listen(PORT, () => {
