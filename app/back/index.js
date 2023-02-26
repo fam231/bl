@@ -94,7 +94,7 @@ async function GetAllLists() {
   await conn.end();
 
   rows.forEach((element) => {
-    switch (element.listName) {
+    switch () {
       case "baseList":
         lists.baseList.push({
           ElementName: element.item,
@@ -105,7 +105,7 @@ async function GetAllLists() {
       default:
         console.log("I am in default lists.allList: ", lists.allList);
         if (lists.allList.length <= 0) {
-          console.log("allList Пуст: ", listElem.name);
+          console.log("allList Пуст: ", element.listName);
           lists.allList.push({
             name: element.listName,
             mas_elements: [
