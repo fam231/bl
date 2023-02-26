@@ -117,7 +117,8 @@ app.listen(PORT, () => {
 
 app.get("/lists", (req, res) => {
   async function getDataLists(params) {
-    return await GetAllLists();
+    let answ = await GetAllLists();
+    return answ;
   }
   console.log("lists in get: ");
   console.log(getDataLists());
