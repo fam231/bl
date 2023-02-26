@@ -117,6 +117,8 @@ async function GetAllLists() {
             if (listElem.name === element.listName) {
               console.log("Имя листа найдено в обьекте: ", listElem.name);
               console.log("Массив листа");
+              console.log(typeof listElem.mas_elements);
+              console.log(listElem);
               console.log(listElem.mas_elements);
               listElem.mas_elements.push({
                 ElementName: element.item,
