@@ -1,9 +1,9 @@
 const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 
-const pool = mysql.createPool({
+const connection = {
   host: "mysql",
   user: "root",
   database: "bldb",
@@ -11,7 +11,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-});
+};
 // let lists = {
 //   baseList: [
 //     { ElementName: "Апельсин", bay_state: false },
@@ -88,8 +88,16 @@ const pool = mysql.createPool({
 // StartApp();
 async function GetAllLists() {
   lists = { baseList: [], allList: [] };
-  const result = await pool.query("SELECT * from lists");
-  result.forEach((element) => {
+  let sqlReq = "SELECT * FROM lists ";
+  const conn = await mysql.createConnection(connection);
+  const [rows, fields] = await conn.execute(sqlReq, [2, 2]);
+  console.log("fields: ");
+  console.log(fields);
+  console.log("rows: ");
+  console.log(rows);
+  await conn.end();
+
+  rows.forEach((element) => {
     switch (element.listName) {
       case "baseList":
         lists.baseList.push({
@@ -124,7 +132,7 @@ app.listen(PORT, () => {
 });
 
 app.get("/lists", (req, res) => {
-  console.log(GetAllLists());
+  let lists = GetAllLists();
   // async function getDataLists(params) {
   //   let answ = await GetAllLists();
   //   console.log("answ: ");
@@ -135,5 +143,5 @@ app.get("/lists", (req, res) => {
 
   console.log("lists in get: ");
 
-  res.json({});
+  res.json({ lists });
 });
