@@ -91,8 +91,6 @@ async function GetAllLists() {
   let sqlReq = "SELECT * FROM lists ";
   const conn = await mysql.createConnection(connection);
   const [rows, fields] = await conn.execute(sqlReq, [2, 2]);
-  console.log("fields: ");
-  console.log(fields);
   console.log("rows: ");
   console.log(rows);
   await conn.end();
@@ -132,16 +130,15 @@ app.listen(PORT, () => {
 });
 
 app.get("/lists", (req, res) => {
-  let lists = GetAllLists();
-  // async function getDataLists(params) {
-  //   let answ = await GetAllLists();
-  //   console.log("answ: ");
-  //   console.log(answ);
+  async function getDataLists(params) {
+    let answ = await GetAllLists();
+    console.log("answ: ");
+    console.log(answ);
 
-  //   return {};
-  // }
-
+    return { answ };
+  }
+  let lists = getDataLists();
   console.log("lists in get: ");
-
+  console.log(lists);
   res.json({ lists });
 });
