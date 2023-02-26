@@ -87,7 +87,7 @@ let lists2 = {
 // }
 // StartApp();
 async function GetAllLists() {
-  lists = { baseList: [], allList: [] };
+  let lists = { baseList: [], allList: [] };
   let sqlReq = "SELECT * FROM lists ";
   const conn = await mysql.createConnection(connection);
   const [rows, fields] = await conn.execute(sqlReq, [2, 2]);
@@ -127,22 +127,16 @@ async function GetAllLists() {
   });
   return lists;
 }
-async function StartApp() {
-  try {
-    app.listen(PORT, () => {
-      console.log(`Сервер запущен на порту ${PORT}`);
-    });
 
-    app.get("/lists", (req, res) => {
-      GetAllLists();
-      // let lists = await GetAllLists();
-      // console.log("lists in get: ");
-      // console.log(lists2);
-      // console.log(lists);
-      res.json(lists2);
-    });
-  } catch (error) {
-    console.log("Ошибка запуска сервера: ", error);
-  }
-}
-StartApp();
+app.listen(PORT, () => {
+  console.log(`Сервер запущен на порту ${PORT}`);
+});
+
+app.get("/lists", (req, res) => {
+  GetAllLists();
+  // let lists = await GetAllLists();
+  // console.log("lists in get: ");
+  // console.log(lists2);
+  // console.log(lists);
+  res.json(lists2);
+});
