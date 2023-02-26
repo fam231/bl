@@ -135,7 +135,7 @@ async function StartApp() {
       console.log("lists in get: ");
       console.log(lists2);
       console.log(lists);
-      res.json({ lists2 });
+      res.json(lists2);
     });
   } catch (error) {
     console.log("Ошибка запуска сервера: ", error);
