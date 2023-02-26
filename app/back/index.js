@@ -9,39 +9,39 @@ const connection = mysql.createConnection({
   database: "bldb",
   password: "example",
 });
-let lists = {
-  baseList: [
-    { ElementName: "Апельсин", bay_state: false },
-    { ElementName: "Мандарин", bay_state: false },
-    { ElementName: "Яблоко", bay_state: false },
-  ],
-  allList: [
-    {
-      name: "works",
-      mas_elements: [
-        { ElementName: "Сходить", bay_state: false },
-        { ElementName: "Заказать", bay_state: false },
-        { ElementName: "Забить", bay_state: false },
-      ],
-    },
-    {
-      name: "byus",
-      mas_elements: [
-        { ElementName: "Апельсин", bay_state: false },
-        { ElementName: "Мандарин", bay_state: false },
-        { ElementName: "Яблоко", bay_state: false },
-      ],
-    },
-    {
-      name: "date",
-      mas_elements: [
-        { ElementName: "11", bay_state: false },
-        { ElementName: "12", bay_state: true },
-        { ElementName: "13", bay_state: false },
-      ],
-    },
-  ],
-};
+// let lists = {
+//   baseList: [
+//     { ElementName: "Апельсин", bay_state: false },
+//     { ElementName: "Мандарин", bay_state: false },
+//     { ElementName: "Яблоко", bay_state: false },
+//   ],
+//   allList: [
+//     {
+//       name: "works",
+//       mas_elements: [
+//         { ElementName: "Сходить", bay_state: false },
+//         { ElementName: "Заказать", bay_state: false },
+//         { ElementName: "Забить", bay_state: false },
+//       ],
+//     },
+//     {
+//       name: "byus",
+//       mas_elements: [
+//         { ElementName: "Апельсин", bay_state: false },
+//         { ElementName: "Мандарин", bay_state: false },
+//         { ElementName: "Яблоко", bay_state: false },
+//       ],
+//     },
+//     {
+//       name: "date",
+//       mas_elements: [
+//         { ElementName: "11", bay_state: false },
+//         { ElementName: "12", bay_state: true },
+//         { ElementName: "13", bay_state: false },
+//       ],
+//     },
+//   ],
+// };
 
 async function GetAllLists() {
   lists = { baseList: [], allList: [] };
@@ -98,20 +98,26 @@ async function GetAllLists() {
 }
 
 //Роуты
-let lists2 = []
-async function StartApp(params) {
-  try {
-    let lists2 = await GetAllLists();
-    console.log('lists2: ', lists2);
-    app.listen(PORT, () => {
-      console.log(`server running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.log("error: ", error);
-  }
-}
-StartApp();
+
+// async function StartApp(params) {
+//   try {
+//     let lists = await GetAllLists();
+//     console.log('lists: ', lists);
+
+//   } catch (error) {
+//     console.log("error: ", error);
+//   }
+// }
+// StartApp();
+
+app.listen(PORT, () => {
+  console.log(`server running on port ${PORT}`);
+});
+
 app.get("/lists", (req, res) => {
-  console.log("lists in get: " + lists2);
-  res.json(lists2);
+  async function getDataLists(params) {
+    return await GetAllLists();
+  }
+  console.log("lists in get: " + getDataLists());
+  res.json(getDataLists());
 });
