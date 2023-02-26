@@ -94,7 +94,7 @@ async function GetAllLists() {
   await conn.end();
 
   rows.forEach((element) => {
-    switch () {
+    switch (element.listName) {
       case "baseList":
         lists.baseList.push({
           ElementName: element.item,
