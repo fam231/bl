@@ -3,11 +3,14 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const mysql = require("mysql2");
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
   host: "mysql",
   user: "root",
   database: "bldb",
   password: "example",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 // let lists = {
 //   baseList: [
@@ -43,59 +46,60 @@ const connection = mysql.createConnection({
 //   ],
 // };
 
-async function GetAllLists() {
-  lists = { baseList: [], allList: [] };
-  let sql = "SELECT * FROM lists ";
+// async function GetAllLists() {
+//   lists = { baseList: [], allList: [] };
+//   let sql = "SELECT * FROM lists ";
 
-  connection.connect(function (err) {
-    if (err) {
-      return console.error("Ошибка: " + err.message);
-    } else {
-      console.log("Подключение к серверу MySQL успешно установлено");
-    }
-  });
+//   // connection.connect(function (err) {
+//   //   if (err) {
+//   //     return console.error("Ошибка: " + err.message);
+//   //   } else {
+//   //     console.log("Подключение к серверу MySQL успешно установлено");
+//   //   }
+//   // });
 
-  connection.query(sql, function (err, result) {
-    if (err) throw console.error("Ошибка: " + err.message);
-    console.log("Result: " + typeof result);
-    lists = result;
-    console.log("get result");
-  });
-  console.log("lists on GetAllLists:");
-  console.log(lists);
+//   let qer = await pool.query(sql, function (err, result) {
+//     if (err) throw console.error("Ошибка: " + err.message);
+//     console.log("Result: " + typeof result);
+//     console.log("get result");
+//     return result
+//   });
 
-  return lists;
+//   console.log("lists on GetAllLists:");
+//   console.log(await ans);
 
-  // connection.end();
+//   return qer;
 
-  // answ.forEach((element) => {
-  //         switch (element.listName) {
-  //           case "baseList":
-  //             lists.baseList.push({
-  //               ElementName: element.item,
-  //               bay_state: element.state,
-  //             });
-  //             break;
+//   // connection.end();
 
-  //           default:
-  //             let indexList = lists.allList.indexOf(element.listName);
-  //             if (indexList < 0) {
-  //               lists.allList.push({
-  //                 name: element.listName,
-  //                 mas_elements: [
-  //                   { ElementName: element.item, bay_state: element.state },
-  //                 ],
-  //               });
-  //             } else {
-  //               lists.allList[indexList].mas_elements.push({
-  //                 ElementName: element.item,
-  //                 bay_state: element.state,
-  //               });
-  //             }
-  //             break;
-  //         }
-  //     });
-}
+//   // answ.forEach((element) => {
+//   //         switch (element.listName) {
+//   //           case "baseList":
+//   //             lists.baseList.push({
+//   //               ElementName: element.item,
+//   //               bay_state: element.state,
+//   //             });
+//   //             break;
+
+//   //           default:
+//   //             let indexList = lists.allList.indexOf(element.listName);
+//   //             if (indexList < 0) {
+//   //               lists.allList.push({
+//   //                 name: element.listName,
+//   //                 mas_elements: [
+//   //                   { ElementName: element.item, bay_state: element.state },
+//   //                 ],
+//   //               });
+//   //             } else {
+//   //               lists.allList[indexList].mas_elements.push({
+//   //                 ElementName: element.item,
+//   //                 bay_state: element.state,
+//   //               });
+//   //             }
+//   //             break;
+//   //         }
+//   //     });
+// }
 
 //Роуты
 
@@ -109,21 +113,26 @@ async function GetAllLists() {
 //   }
 // }
 // StartApp();
+async function GetAllLists() {
+  const result = await pool.query("SELECT * from lists");
+  return result[0];
+}
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
 });
 
 app.get("/lists", (req, res) => {
-  async function getDataLists(params) {
-    let answ = await GetAllLists();
-    console.log("answ: ");
-    console.log(answ);
+  console.log(GetAllLists());
+  // async function getDataLists(params) {
+  //   let answ = await GetAllLists();
+  //   console.log("answ: ");
+  //   console.log(answ);
 
-    return answ;
-  }
+  //   return {};
+  // }
 
   console.log("lists in get: ");
-  console.log(getDataLists());
-  res.json(getDataLists());
+
+  res.json({});
 });
