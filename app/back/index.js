@@ -105,7 +105,7 @@ async function GetAllLists() {
       default:
         console.log("I am in default lists.allList: ", lists.allList);
         if (lists.allList.length <= 0) {
-          console.log("allList Пуст: ", element.listName);
+          console.log("allList Пуст добавляем первй список", element.listName);
           lists.allList.push({
             name: element.listName,
             mas_elements: [
@@ -116,6 +116,8 @@ async function GetAllLists() {
           lists = lists.allList.map((listElem) => {
             if (listElem.name === element.listName) {
               console.log("Имя листа найдено в обьекте: ", listElem.name);
+              console.log("Массив листа");
+              console.log(listElem.mas_elements);
               listElem.mas_elements.push({
                 ElementName: element.item,
                 bay_state: element.state,
