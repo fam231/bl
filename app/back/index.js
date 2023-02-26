@@ -12,39 +12,39 @@ const connection = {
   connectionLimit: 10,
   queueLimit: 0,
 };
-// let lists = {
-//   baseList: [
-//     { ElementName: "Апельсин", bay_state: false },
-//     { ElementName: "Мандарин", bay_state: false },
-//     { ElementName: "Яблоко", bay_state: false },
-//   ],
-//   allList: [
-//     {
-//       name: "works",
-//       mas_elements: [
-//         { ElementName: "Сходить", bay_state: false },
-//         { ElementName: "Заказать", bay_state: false },
-//         { ElementName: "Забить", bay_state: false },
-//       ],
-//     },
-//     {
-//       name: "byus",
-//       mas_elements: [
-//         { ElementName: "Апельсин", bay_state: false },
-//         { ElementName: "Мандарин", bay_state: false },
-//         { ElementName: "Яблоко", bay_state: false },
-//       ],
-//     },
-//     {
-//       name: "date",
-//       mas_elements: [
-//         { ElementName: "11", bay_state: false },
-//         { ElementName: "12", bay_state: true },
-//         { ElementName: "13", bay_state: false },
-//       ],
-//     },
-//   ],
-// };
+let lists2 = {
+  baseList: [
+    { ElementName: "Апельсин", bay_state: false },
+    { ElementName: "Мандарин", bay_state: false },
+    { ElementName: "Яблоко", bay_state: false },
+  ],
+  allList: [
+    {
+      name: "works",
+      mas_elements: [
+        { ElementName: "Сходить", bay_state: false },
+        { ElementName: "Заказать", bay_state: false },
+        { ElementName: "Забить", bay_state: false },
+      ],
+    },
+    {
+      name: "byus",
+      mas_elements: [
+        { ElementName: "Апельсин", bay_state: false },
+        { ElementName: "Мандарин", bay_state: false },
+        { ElementName: "Яблоко", bay_state: false },
+      ],
+    },
+    {
+      name: "date",
+      mas_elements: [
+        { ElementName: "11", bay_state: false },
+        { ElementName: "12", bay_state: true },
+        { ElementName: "13", bay_state: false },
+      ],
+    },
+  ],
+};
 
 // async function GetAllLists() {
 //   lists = { baseList: [], allList: [] };
@@ -133,8 +133,9 @@ async function StartApp() {
     app.get("/lists", async (req, res) => {
       let lists = await GetAllLists();
       console.log("lists in get: ");
+      console.log(lists2);
       console.log(lists);
-      res.json({ lists });
+      res.json({ lists2 });
     });
   } catch (error) {
     console.log("Ошибка запуска сервера: ", error);
