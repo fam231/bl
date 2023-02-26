@@ -90,7 +90,8 @@ async function GetAllLists() {
         }
         return lists;
       });
-      console.log("Lists in GetallList: " + lists);
+      console.log("Lists in GetallList: ");
+      console.log(lists);
     });
 
     // connection.end();
@@ -118,6 +119,7 @@ app.get("/lists", (req, res) => {
   async function getDataLists(params) {
     return await GetAllLists();
   }
-  console.log("lists in get: " + getDataLists());
+  console.log("lists in get: ");
+  console.log(getDataLists());
   res.json(getDataLists());
 });
