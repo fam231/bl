@@ -12,39 +12,39 @@ const connection = {
   connectionLimit: 10,
   queueLimit: 0,
 };
-let lists2 = {
-  baseList: [
-    { ElementName: "Апельсин", bay_state: false },
-    { ElementName: "Мандарин", bay_state: false },
-    { ElementName: "Яблоко", bay_state: false },
-  ],
-  allList: [
-    {
-      name: "works",
-      mas_elements: [
-        { ElementName: "Сходить", bay_state: false },
-        { ElementName: "Заказать", bay_state: false },
-        { ElementName: "Забить", bay_state: false },
-      ],
-    },
-    {
-      name: "byus",
-      mas_elements: [
-        { ElementName: "Апельсин", bay_state: false },
-        { ElementName: "Мандарин", bay_state: false },
-        { ElementName: "Яблоко", bay_state: false },
-      ],
-    },
-    {
-      name: "date",
-      mas_elements: [
-        { ElementName: "11", bay_state: false },
-        { ElementName: "12", bay_state: true },
-        { ElementName: "13", bay_state: false },
-      ],
-    },
-  ],
-};
+// let lists = {
+//   baseList: [
+//     { ElementName: "Апельсин", bay_state: false },
+//     { ElementName: "Мандарин", bay_state: false },
+//     { ElementName: "Яблоко", bay_state: false },
+//   ],
+//   allList: [
+//     {
+//       name: "works",
+//       mas_elements: [
+//         { ElementName: "Сходить", bay_state: false },
+//         { ElementName: "Заказать", bay_state: false },
+//         { ElementName: "Забить", bay_state: false },
+//       ],
+//     },
+//     {
+//       name: "byus",
+//       mas_elements: [
+//         { ElementName: "Апельсин", bay_state: false },
+//         { ElementName: "Мандарин", bay_state: false },
+//         { ElementName: "Яблоко", bay_state: false },
+//       ],
+//     },
+//     {
+//       name: "date",
+//       mas_elements: [
+//         { ElementName: "11", bay_state: false },
+//         { ElementName: "12", bay_state: true },
+//         { ElementName: "13", bay_state: false },
+//       ],
+//     },
+//   ],
+// };
 
 // async function GetAllLists() {
 //   lists = { baseList: [], allList: [] };
@@ -105,24 +105,21 @@ async function GetAllLists() {
         break;
 
       default:
-        let indexList = lists.allList.indexOf(element.listName);
-        console.log("element.listName: ", element.listName);
-        console.log("indexList: ", indexList);
-        if (indexList < 0) {
-          console.log("Добавляет Лист");
-          lists.allList.push({
-            name: element.listName,
-            mas_elements: [
-              { ElementName: element.item, bay_state: element.state },
-            ],
-          });
-        } else {
-          lists.allList[indexList].mas_elements.push({
-            ElementName: element.item,
-            bay_state: element.state,
-          });
-        }
-        break;
+        lists = lists.allList.map((listElem) => {
+          if (listElem.name === element.listName) {
+            listElem.mas_elements.push({
+              ElementName: element.item,
+              bay_state: element.state,
+            });
+          } else {
+            lists.allList.push({
+              name: element.listName,
+              mas_elements: [
+                { ElementName: element.item, bay_state: element.state },
+              ],
+            });
+          }
+        });
     }
   });
   return lists;
@@ -133,10 +130,5 @@ app.listen(PORT, () => {
 });
 
 app.get("/lists", (req, res) => {
-  GetAllLists();
-  // let lists = await GetAllLists();
-  // console.log("lists in get: ");
-  // console.log(lists2);
-  // console.log(lists);
-  res.json(lists2);
+  res.json(GetAllLists());
 });
