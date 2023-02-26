@@ -124,21 +124,20 @@ async function GetAllLists() {
   });
   return lists;
 }
+async function StartApp() {
+  try {
+    app.listen(PORT, () => {
+      console.log(`Сервер запущен на порту ${PORT}`);
+    });
 
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`);
-});
-
-app.get("/lists", (req, res) => {
-  async function getDataLists(params) {
-    let answ = await GetAllLists();
-    console.log("answ: ");
-    console.log(answ);
-
-    return { answ };
+    app.get("/lists", async (req, res) => {
+      let lists = await GetAllLists();
+      console.log("lists in get: ");
+      console.log(lists);
+      res.json({ lists });
+    });
+  } catch (error) {
+    console.log("Ошибка запуска сервера: ", error);
   }
-  let lists = getDataLists();
-  console.log("lists in get: ");
-  console.log(lists);
-  res.json({ lists });
-});
+}
+StartApp();
