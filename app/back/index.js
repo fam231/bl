@@ -115,7 +115,7 @@ const pool = mysql.createPool({
 // StartApp();
 async function GetAllLists() {
   const result = await pool.query("SELECT * from lists");
-  return result[0];
+  return result;
 }
 
 app.listen(PORT, () => {
