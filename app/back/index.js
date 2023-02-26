@@ -90,8 +90,6 @@ async function GetAllLists() {
         }
         return lists;
       });
-      console.log("Lists in GetallList: ");
-      console.log(lists);
     });
 
     // connection.end();
@@ -118,6 +116,8 @@ app.listen(PORT, () => {
 app.get("/lists", (req, res) => {
   async function getDataLists(params) {
     let answ = await GetAllLists();
+    console.log("answ: ");
+    console.log(answ);
     return answ;
   }
   console.log("lists in get: ");
