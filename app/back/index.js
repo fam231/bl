@@ -55,15 +55,16 @@ async function GetAllLists() {
     }
   });
 
-  let qry = await connection.query(sql, function (err, result) {
+  connection.query(sql, function (err, result) {
     if (err) throw console.error("Ошибка: " + err.message);
     console.log("Result: " + typeof result);
     lists = result;
+    console.log("get result");
   });
-
-  console.log("qry: ", typeof qry);
   console.log("lists on GetAllLists:");
   console.log(lists);
+
+  return lists;
 
   // connection.end();
 
@@ -113,16 +114,16 @@ app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
 });
 
-app.get("/lists", async (req, res) => {
-  // async function getDataLists(params) {
-  //   let answ = await GetAllLists();
-  //   console.log("answ: ");
-  //   console.log(answ);
+app.get("/lists", (req, res) => {
+  async function getDataLists(params) {
+    let answ = await GetAllLists();
+    console.log("answ: ");
+    console.log(answ);
 
-  // return lists;
-  // }
-  await GetAllLists();
+    return answ;
+  }
+
   console.log("lists in get: ");
-  console.log(lists);
-  res.json(lists);
+  console.log(getDataLists());
+  res.json(getDataLists());
 });
