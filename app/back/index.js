@@ -110,9 +110,8 @@ app.post("/saveList", async (req, res) => {
 
   const reqest = Buffer.concat(buffers).toString();
   console.log("reqest: ");
-  console.log(reqest);
-  const { NameList: name, masList: mas_elements } =
-    Buffer.concat(buffers).toString();
+  console.log(typeof reqest);
+  const { NameList: name, masList: mas_elements } = reqest;
   console.log("name");
   console.log(name);
   console.log("mas_elements");
