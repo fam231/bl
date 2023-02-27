@@ -9,42 +9,42 @@ const connection = {
   database: "bldb",
   password: "example",
   waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+  // connectionLimit: 10,
+  // queueLimit: 0,
 };
-let listsTmp = {
-  baseList: [
-    { ElementName: "Апельсин", bay_state: false },
-    { ElementName: "Мандарин", bay_state: false },
-    { ElementName: "Яблоко", bay_state: false },
-  ],
-  allList: [
-    {
-      name: "works",
-      mas_elements: [
-        { ElementName: "Сходить", bay_state: false },
-        { ElementName: "Заказать", bay_state: false },
-        { ElementName: "Забить", bay_state: false },
-      ],
-    },
-    {
-      name: "byus",
-      mas_elements: [
-        { ElementName: "Апельсин", bay_state: false },
-        { ElementName: "Мандарин", bay_state: false },
-        { ElementName: "Яблоко", bay_state: false },
-      ],
-    },
-    {
-      name: "date",
-      mas_elements: [
-        { ElementName: "11", bay_state: false },
-        { ElementName: "12", bay_state: true },
-        { ElementName: "13", bay_state: false },
-      ],
-    },
-  ],
-};
+// let listsTmp = {
+//   baseList: [
+//     { ElementName: "Апельсин", bay_state: false },
+//     { ElementName: "Мандарин", bay_state: false },
+//     { ElementName: "Яблоко", bay_state: false },
+//   ],
+//   allList: [
+//     {
+//       name: "works",
+//       mas_elements: [
+//         { ElementName: "Сходить", bay_state: false },
+//         { ElementName: "Заказать", bay_state: false },
+//         { ElementName: "Забить", bay_state: false },
+//       ],
+//     },
+//     {
+//       name: "byus",
+//       mas_elements: [
+//         { ElementName: "Апельсин", bay_state: false },
+//         { ElementName: "Мандарин", bay_state: false },
+//         { ElementName: "Яблоко", bay_state: false },
+//       ],
+//     },
+//     {
+//       name: "date",
+//       mas_elements: [
+//         { ElementName: "11", bay_state: false },
+//         { ElementName: "12", bay_state: true },
+//         { ElementName: "13", bay_state: false },
+//       ],
+//     },
+//   ],
+// };
 
 async function GetAllLists() {
   let lists = { baseList: [], allList: [] };
@@ -98,9 +98,6 @@ async function GetAllLists() {
         }
     }
   });
-  // console.log("lists: ");
-  // console.log(lists);
-
   return lists;
 }
 
@@ -117,4 +114,16 @@ app.get("/lists", async (req, res) => {
   let lists = await GetAllLists();
   console.log(lists);
   res.json(lists);
+});
+app.get("/saveList", async (req, res) => {
+  const buffers = []; // буфер для получаемых данных
+  for await (const chunk of request) {
+    buffers.push(chunk); // добавляем в буфер все полученные данные
+  }
+
+  const data = Buffer.concat(buffers).toString();
+  console.log(data);
+  response.end("Данные успешно получены");
+
+  res.json("ok");
 });

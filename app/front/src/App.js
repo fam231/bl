@@ -26,27 +26,26 @@ function App() {
           // });
           setBaseList(result.baseList);
 
-
           setLists(
             result.allList
-              // .filter((item) => {
-              //   // console.log(item);
-              //   if (item[0] !== "Base_List") {
-              //     return item;
-              //   }
-              //   return undefined;
-              // })
-              // .forEach((list) => {
-              //   const elem = { name: list, mas_elements: [] };
-              //   item[1].forEach((element) => {
-              //     elem.mas_elements.push({
-              //       ElementName: element.split(",")[0],
-              //       bay_state:
-              //         element.split(",")[1] === "true\n" ? true : false,
-              //     });
-              //   });
-              //   return elem;
-              // })
+            // .filter((item) => {
+            //   // console.log(item);
+            //   if (item[0] !== "Base_List") {
+            //     return item;
+            //   }
+            //   return undefined;
+            // })
+            // .forEach((list) => {
+            //   const elem = { name: list, mas_elements: [] };
+            //   item[1].forEach((element) => {
+            //     elem.mas_elements.push({
+            //       ElementName: element.split(",")[0],
+            //       bay_state:
+            //         element.split(",")[1] === "true\n" ? true : false,
+            //     });
+            //   });
+            //   return elem;
+            // })
           );
           // for (const List of result) {
           // if (List[0] === "Base_List") {
@@ -128,7 +127,7 @@ function App() {
     });
     let query = { NameList, dataStr };
 
-    let response = await fetch("./scripts/Save_List.php", {
+    let response = await fetch("/saveList", {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(query),
@@ -192,9 +191,8 @@ function App() {
     setLists(
       Lists.map((item) => {
         if (item.name === NameList) {
-          item.mas_elements[IndexElement].bay_state = !item.mas_elements[
-            IndexElement
-          ].bay_state;
+          item.mas_elements[IndexElement].bay_state =
+            !item.mas_elements[IndexElement].bay_state;
         }
         return item;
       })
