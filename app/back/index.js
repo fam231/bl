@@ -96,16 +96,14 @@ async function GetAllLists() {
   return lists;
 }
 
-app.listen(PORT, () => {
-  console.log(`Сервер запущен на порту ${PORT}`);
-});
+app.use(express.json());
 
 app.get("/lists", async (req, res) => {
   console.log(req);
   let lists = await GetAllLists();
   res.json(lists);
 });
-app.get("/saveList", async (req, res) => {
+app.post("/saveList", async (req, res) => {
   console.log(req);
   console.log("Получен запрос на сохраниние листа");
   const buffers = []; // буфер для получаемых данных
@@ -116,4 +114,8 @@ app.get("/saveList", async (req, res) => {
   const data = Buffer.concat(buffers).toString();
   console.log(data);
   res.json("ok");
+});
+
+app.listen(PORT, () => {
+  console.log(`Сервер запущен на порту ${PORT}`);
 });
