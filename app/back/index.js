@@ -108,13 +108,13 @@ app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
 
-app.get("/lists", (req, res) => {
+app.get("/lists", async (req, res) => {
   console.log("listsTmp: ");
   console.log(listsTmp);
 
   console.log("GetAllLists : ");
 
-  let lists = GetAllLists();
+  let lists = await GetAllLists();
   console.log(lists);
   res.json(lists);
 });
