@@ -121,11 +121,11 @@ function App() {
     // setWorkList((work_list_visible = false));
   }
   async function SaveList(NameList, masList) {
-    let dataStr = "";
-    masList.forEach((element) => {
-      dataStr += element.ElementName + "," + element.bay_state + "\n";
-    });
-    let query = { NameList, dataStr };
+    // let dataStr = "";
+    // masList.forEach((element) => {
+    //   dataStr += element.ElementName + "," + element.bay_state + "\n";
+    // });
+    let query = { NameList, masList };
 
     let response = await fetch("/saveList", {
       method: "POST",
