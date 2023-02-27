@@ -108,7 +108,10 @@ app.post("/saveList", async (req, res) => {
     buffers.push(chunk); // добавляем в буфер все полученные данные
   }
 
-  const { name: NameList, mas_elements: masList } =
+  const reqest = Buffer.concat(buffers).toString();
+  console.log("reqest: ");
+  console.log(reqest);
+  const { NameList: name, masList: mas_elements } =
     Buffer.concat(buffers).toString();
   console.log("name");
   console.log(name);
