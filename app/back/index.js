@@ -106,13 +106,11 @@ app.listen(PORT, () => {
 });
 
 app.get("/lists", async (req, res) => {
-  console.log("GetAllLists : ");
-
   let lists = await GetAllLists();
-  console.log(lists);
   res.json(lists);
 });
 app.get("/saveList", async (req, res) => {
+  console.log("Получен запрос на сохраниние листа");
   const buffers = []; // буфер для получаемых данных
   for await (const chunk of request) {
     buffers.push(chunk); // добавляем в буфер все полученные данные
