@@ -118,7 +118,5 @@ app.get("/saveList", async (req, res) => {
 
   const data = Buffer.concat(buffers).toString();
   console.log(data);
-  response.end("Данные успешно получены");
-
   res.json("ok");
 });
