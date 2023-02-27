@@ -72,7 +72,7 @@ async function GetAllLists() {
             ],
           });
         } else {
-          console.log("AllList Не пуст");
+          // console.log("AllList Не пуст");
           lists.allList.forEach((listElem) => {
             if (listElem.name === element.listName) {
               // console.log(                "Имя списка совподает пытаемся добавить новый элемент в список"              );
@@ -101,10 +101,12 @@ app.listen(PORT, () => {
 });
 
 app.get("/lists", async (req, res) => {
+  console.log(req);
   let lists = await GetAllLists();
   res.json(lists);
 });
 app.get("/saveList", async (req, res) => {
+  console.log(req);
   console.log("Получен запрос на сохраниние листа");
   const buffers = []; // буфер для получаемых данных
   for await (const chunk of request) {
