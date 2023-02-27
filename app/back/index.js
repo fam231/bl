@@ -12,7 +12,7 @@ const connection = {
   // connectionLimit: 10,
   // queueLimit: 0,
 };
-// let listsTmp = {
+// let lists = {
 //   baseList: [
 //     { ElementName: "Апельсин", bay_state: false },
 //     { ElementName: "Мандарин", bay_state: false },
@@ -106,9 +106,6 @@ app.listen(PORT, () => {
 });
 
 app.get("/lists", async (req, res) => {
-  console.log("listsTmp: ");
-  console.log(listsTmp);
-
   console.log("GetAllLists : ");
 
   let lists = await GetAllLists();
