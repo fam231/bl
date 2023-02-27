@@ -1,6 +1,6 @@
 #BaseListSelect {
-  margin-right: 5px;
-  width: 25%;
+  margin-right: 10px;
+  width: 30%;
   min-height: 1.5em;
   /* border-radius: 20px; */
   text-align: center;
@@ -13,10 +13,11 @@
 }
 #AddForm {
   text-align: right;
+  padding: 5px;
 }
 h2 {
   margin-bottom: 20px;
-  font-size: 2em;
+  font-size: 2rem;
 }
 
 .LiProds {
@@ -50,7 +51,7 @@ h2 {
 }
 .nav_button {
   padding: 6px 15px;
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: bolder;
   color: aliceblue;
   text-shadow: 1px 1px 2px black;
