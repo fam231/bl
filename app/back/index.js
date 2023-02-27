@@ -104,12 +104,13 @@ app.get("/lists", async (req, res) => {
 });
 app.post("/saveList", async (req, res) => {
   const buffers = []; // буфер для получаемых данных
-  for await (const chunk of request) {
+  for await (const chunk of req) {
     buffers.push(chunk); // добавляем в буфер все полученные данные
   }
 
-  const data = Buffer.concat(buffers).toString();
-  console.log(data);
+  const request = Buffer.concat(buffers).toString();
+  console.log("request");
+  console.log(request.body);
   res.json("ok");
 });
 
