@@ -63,7 +63,6 @@ async function GetAllLists() {
         break;
 
       default:
-        console.log("I am in default lists.allList: ", lists.allList);
         if (lists.allList.length <= 0) {
           console.log("allList Пуст добавляем первй список", element.listName);
           lists.allList.push({
@@ -73,14 +72,21 @@ async function GetAllLists() {
             ],
           });
         } else {
+          console.log("AllList Не пуст");
           lists.allList.forEach((listElem) => {
             if (listElem.name === element.listName) {
+              console.log(
+                "Имя списка совподает пытаемся добавить новый элемент в список"
+              );
               listElem.mas_elements.push({
                 ElementName: element.item,
                 bay_state: element.state,
               });
             } else {
-              console.log("Имя листа НЕ найдено в обьекте: ", listElem.name);
+              console.log(
+                "Имя списка НЕ найдено в обьекте. Добовляем список",
+                listElem.name
+              );
               lists.allList.push({
                 name: element.listName,
                 mas_elements: [
@@ -92,8 +98,8 @@ async function GetAllLists() {
         }
     }
   });
-  console.log("lists: ");
-  console.log(lists);
+  // console.log("lists: ");
+  // console.log(lists);
 
   return lists;
 }
