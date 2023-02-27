@@ -96,31 +96,23 @@ async function GetAllLists() {
   return lists;
 }
 
-app.use(express.json());
-
 app.get("/lists", async (req, res) => {
   let lists = await GetAllLists();
   res.json(lists);
 });
 app.post("/saveList", async (req, res) => {
-  // const buffers = []; // буфер для получаемых данных
-  // for await (const chunk of req) {
-  //   buffers.push(chunk); // добавляем в буфер все полученные данные
-  // }
+  const buffers = []; // буфер для получаемых данных
 
-  // const reqest = Buffer.concat(buffers).toString();
-  // console.log("reqest: ");
-  // // console.log(typeof reqest);
-  // const { NameList: name, masList: mas_elements } = reqest;
-  // console.log("name");
-  // console.log(name);
-  // console.log("mas_elements");
-  // console.log(mas_elements);
-
-  console.log("req: ");
-  console.log(req);
-  console.log("req.body");
-  console.log(req.body);
+  for await (const chunk of req) {
+    buffers.push(chunk); // добавляем в буфер все полученные данные
+  }
+  const { NameList: name, masList: mas_elements } = JSON.parse(
+    Buffer.concat(buffers).toString()
+  );
+  console.log("name");
+  console.log(name);
+  console.log("mas_elements");
+  console.log(mas_elements);
   res.json("ok");
 });
 
