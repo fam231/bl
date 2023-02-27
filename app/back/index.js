@@ -103,5 +103,11 @@ app.listen(PORT, () => {
 });
 
 app.get("/lists", (req, res) => {
+  console.log("listsTmp: ");
+  console.log(listsTmp);
+
+  console.log("GetAllLists : ");
+  console.log(GetAllLists());
+
   res.json(listsTmp);
 });
