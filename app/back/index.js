@@ -110,7 +110,11 @@ app.post("/saveList", async (req, res) => {
 
   const request = Buffer.concat(buffers).toString();
   console.log("request");
-  console.log(request.body);
+  console.log(request);
+  console.log("req body ");
+  console.log(req.body);
+  console.log("req: ");
+  console.log(req);
   res.json("ok");
 });
 
