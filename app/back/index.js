@@ -1,19 +1,17 @@
 const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 
-const connection = mysql
-  .createConnection({
-    host: "mysql",
-    user: "root",
-    database: "bldb",
-    password: "example",
-    waitForConnections: true,
-    // connectionLimit: 10,
-    // queueLimit: 0,
-  })
-  .promise();
+const connection = {
+  host: "mysql",
+  user: "root",
+  database: "bldb",
+  password: "example",
+  waitForConnections: true,
+  // connectionLimit: 10,
+  // queueLimit: 0,
+};
 // let lists = {
 //   baseList: [
 //     { ElementName: "Апельсин", bay_state: false },
@@ -48,63 +46,58 @@ const connection = mysql
 //   ],
 // };
 
-function GetAllLists() {
+async function GetAllLists() {
   let lists = { baseList: [], allList: [] };
   let sqlReq = "SELECT * FROM lists ";
-  connection
-    .query(sqlReq)
-    .then((result) => {
-      console.log("result: ");
-      console.log(result);
-      result.forEach((element) => {
-        switch (element.listName) {
-          case "baseList":
-            lists.baseList.push({
-              ElementName: element.item,
-              bay_state: element.state,
-            });
-            break;
+  const conn = await mysql.createConnection(connection);
+  const [rows, fields] = await conn.execute(sqlReq, [2, 2]);
+  await conn.end();
 
-          default:
-            if (lists.allList.length <= 0) {
-              // console.log("allList Пуст добавляем первй список", element.listName);
+  rows.forEach((element) => {
+    switch (element.listName) {
+      case "baseList":
+        lists.baseList.push({
+          ElementName: element.item,
+          bay_state: element.state,
+        });
+        break;
+
+      default:
+        if (lists.allList.length <= 0) {
+          // console.log("allList Пуст добавляем первй список", element.listName);
+          lists.allList.push({
+            name: element.listName,
+            mas_elements: [
+              { ElementName: element.item, bay_state: element.state },
+            ],
+          });
+        } else {
+          // console.log("AllList Не пуст");
+          lists.allList.forEach((listElem) => {
+            if (listElem.name === element.listName) {
+              // console.log(                "Имя списка совподает пытаемся добавить новый элемент в список"              );
+              listElem.mas_elements.push({
+                ElementName: element.item,
+                bay_state: element.state,
+              });
+            } else {
+              // console.log(                "Имя списка НЕ найдено в обьекте. Добовляем список",                listElem.name              );
               lists.allList.push({
                 name: element.listName,
                 mas_elements: [
                   { ElementName: element.item, bay_state: element.state },
                 ],
               });
-            } else {
-              // console.log("AllList Не пуст");
-              lists.allList.forEach((listElem) => {
-                if (listElem.name === element.listName) {
-                  // console.log(                "Имя списка совподает пытаемся добавить новый элемент в список"              );
-                  listElem.mas_elements.push({
-                    ElementName: element.item,
-                    bay_state: element.state,
-                  });
-                } else {
-                  // console.log(                "Имя списка НЕ найдено в обьекте. Добовляем список",                listElem.name              );
-                  lists.allList.push({
-                    name: element.listName,
-                    mas_elements: [
-                      { ElementName: element.item, bay_state: element.state },
-                    ],
-                  });
-                }
-              });
             }
+          });
         }
-      });
-      return lists;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    }
+  });
+  return lists;
 }
 
-app.get("/lists", (req, res) => {
-  let lists = GetAllLists();
+app.get("/lists", async (req, res) => {
+  let lists = await GetAllLists();
   res.json(lists);
 });
 app.post("/saveList", async (req, res) => {
