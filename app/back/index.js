@@ -155,7 +155,6 @@ app.get("/lists", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-  connection.end();
 });
 app.post("/saveList", async (req, res) => {
   const buffers = []; // буфер для получаемых данных
