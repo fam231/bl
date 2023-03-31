@@ -106,7 +106,7 @@ function GetAllLists() {
 
 app.get("/lists", (req, res) => {
   let lists = GetAllLists();
-  console.log("lists: ");
+  console.log("lists from /lists: ");
   console.log(lists);
   res.json(lists);
 });
