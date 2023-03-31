@@ -101,11 +101,13 @@ function GetAllLists() {
     .catch((err) => {
       console.log(err);
     });
-    return answ
+  return answ;
 }
 
 app.get("/lists", (req, res) => {
   let lists = GetAllLists();
+  console.log("lists: ");
+  console.log(lists);
   res.json(lists);
 });
 app.post("/saveList", async (req, res) => {
