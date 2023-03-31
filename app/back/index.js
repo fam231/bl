@@ -179,12 +179,14 @@ app.post("/saveList", async (req, res) => {
 
   const sql = `INSERT INTO lists(listName,	item,	state) VALUES (?, ?, ?)`;
 
-  connection.query(sql, [newList], function (err, results) {
-    if (err) console.log(err);
-    console.log(results);
-  });
-
-  connection.end();
+  connection
+    .query(sql, [newList])
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   console.log("newList: ");
   console.log(newList);
