@@ -105,10 +105,58 @@ async function GetAllLists() {
 }
 
 app.get("/lists", (req, res) => {
-  let lists = GetAllLists();
-  console.log("lists from /lists: ");
-  console.log(lists);
-  res.json(lists);
+  let lists = { baseList: [], allList: [] };
+  let sqlReq = "SELECT * FROM lists ";
+  connection
+    .query(sqlReq)
+    .then((result) => {
+      console.log("result: ");
+      console.log(result);
+      result.forEach((element) => {
+        switch (element.listName) {
+          case "baseList":
+            lists.baseList.push({
+              ElementName: element.item,
+              bay_state: element.state,
+            });
+            break;
+
+          default:
+            if (lists.allList.length <= 0) {
+              // console.log("allList Пуст добавляем первй список", element.listName);
+              lists.allList.push({
+                name: element.listName,
+                mas_elements: [
+                  { ElementName: element.item, bay_state: element.state },
+                ],
+              });
+            } else {
+              // console.log("AllList Не пуст");
+              lists.allList.forEach((listElem) => {
+                if (listElem.name === element.listName) {
+                  // console.log(                "Имя списка совподает пытаемся добавить новый элемент в список"              );
+                  listElem.mas_elements.push({
+                    ElementName: element.item,
+                    bay_state: element.state,
+                  });
+                } else {
+                  // console.log(                "Имя списка НЕ найдено в обьекте. Добовляем список",                listElem.name              );
+                  lists.allList.push({
+                    name: element.listName,
+                    mas_elements: [
+                      { ElementName: element.item, bay_state: element.state },
+                    ],
+                  });
+                }
+              });
+            }
+        }
+      });
+      res.json(lists);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 app.post("/saveList", async (req, res) => {
   const buffers = []; // буфер для получаемых данных
