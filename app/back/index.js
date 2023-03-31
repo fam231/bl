@@ -52,8 +52,10 @@ function GetAllLists() {
   let lists = { baseList: [], allList: [] };
   let sqlReq = "SELECT * FROM lists ";
   connection
-    .query(sqlReq, [2, 2])
+    .query(sqlReq)
     .then((result) => {
+      console.log("result: ");
+      console.log(result);
       result.forEach((element) => {
         switch (element.listName) {
           case "baseList":
