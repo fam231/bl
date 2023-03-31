@@ -48,10 +48,10 @@ const connection = mysql
 //   ],
 // };
 
-function GetAllLists() {
+async function GetAllLists() {
   let lists = { baseList: [], allList: [] };
   let sqlReq = "SELECT * FROM lists ";
-  let answ = connection
+  let answ = await connection
     .query(sqlReq)
     .then((result) => {
       console.log("result: ");
