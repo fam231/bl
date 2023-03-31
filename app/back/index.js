@@ -173,15 +173,11 @@ app.post("/saveList", async (req, res) => {
   let newList = [];
 
   mas_elements.forEach((element) => {
-    let str = {
-      listName: name,
-      item: element.ElementName,
-      state: element.bay_state,
-    };
+    let str = [name, element.ElementName, element.bay_state];
     newList.push(str);
   });
 
-  const sql = `INSERT INTO lists(listName,	item,	state) VALUES ('listName', 'item', 'state')`;
+  const sql = `INSERT INTO lists(listName,	item,	state) VALUES (?, ?, ?)`;
 
   connection.query(sql, [newList], function (err, results) {
     if (err) console.log(err);
