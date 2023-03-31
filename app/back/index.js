@@ -106,13 +106,10 @@ async function GetAllLists() {
 
 app.get("/lists", (req, res) => {
   let lists = { baseList: [], allList: [] };
-
   let sqlReq = "SELECT * FROM lists ";
   connection
-    .query(sqlReq, [2, 2])
+    .query(sqlReq)
     .then((result) => {
-      console.log("result: ");
-      console.log(result[0]);
       result[0].forEach((element) => {
         switch (element.listName) {
           case "baseList":
@@ -153,13 +150,12 @@ app.get("/lists", (req, res) => {
             }
         }
       });
-      console.log("lists: ");
-      console.log(lists);
       res.json(lists);
     })
     .catch((err) => {
       console.log(err);
     });
+  connection.end();
 });
 app.post("/saveList", async (req, res) => {
   const buffers = []; // буфер для получаемых данных
@@ -174,6 +170,29 @@ app.post("/saveList", async (req, res) => {
   console.log(name);
   console.log("mas_elements");
   console.log(mas_elements);
+
+  let newList = [];
+
+  mas_elements.forEach((element) => {
+    let str = {
+      listName: name,
+      item: element.ElementName,
+      state: element.bay_state,
+    };
+    newList.push(str);
+  });
+
+  const sql = `INSERT INTO lists(listName,	item,	state) VALUES ?`;
+
+  connection.query(sql, [newList], function (err, results) {
+    if (err) console.log(err);
+    console.log(results);
+  });
+
+  connection.end();
+
+  console.log("newList: ");
+  console.log(newList);
 
   res.json("ok");
 });
