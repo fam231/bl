@@ -106,6 +106,7 @@ async function GetAllLists() {
 
 app.get("/lists", (req, res) => {
   let lists = { baseList: [], allList: [] };
+
   let sqlReq = "SELECT * FROM lists ";
   connection
     .query(sqlReq, [2, 2])
@@ -152,6 +153,8 @@ app.get("/lists", (req, res) => {
             }
         }
       });
+      console.log("lists: ");
+      console.log(lists);
       res.json(lists);
     })
     .catch((err) => {
