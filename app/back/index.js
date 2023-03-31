@@ -177,7 +177,7 @@ app.post("/saveList", async (req, res) => {
     newList.push(str);
   });
 
-  const sql = `INSERT INTO lists(listName,	item,	state) VALUES (?, ?, ?)`;
+  const sql = `INSERT INTO lists(listName,	item,	state) VALUES ([0], [1], [2])`;
 
   connection
     .query(sql, [newList])
