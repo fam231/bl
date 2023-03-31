@@ -113,7 +113,7 @@ app.get("/lists", (req, res) => {
     .then((result) => {
       // console.log("result: ");
       // console.log(result);
-      result.forEach((element) => {
+      result[0].forEach((element) => {
         switch (element.listName) {
           case "baseList":
             lists.baseList.push({
