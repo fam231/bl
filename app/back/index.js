@@ -111,8 +111,8 @@ app.get("/lists", (req, res) => {
   connection
     .query(sqlReq, [2, 2])
     .then((result) => {
-      console.log("result: ");
-      console.log(result);
+      // console.log("result: ");
+      // console.log(result);
       result.forEach((element) => {
         switch (element.listName) {
           case "baseList":
