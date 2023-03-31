@@ -108,7 +108,7 @@ app.get("/lists", (req, res) => {
   let lists = { baseList: [], allList: [] };
   let sqlReq = "SELECT * FROM lists ";
   connection
-    .query(sqlReq)
+    .query(sqlReq, [2, 2])
     .then((result) => {
       console.log("result: ");
       console.log(result);
