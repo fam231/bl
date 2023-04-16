@@ -5,7 +5,8 @@ const mysql = require("mysql2");
 
 const connection = mysql
   .createConnection({
-    host: "mysql",
+    // host: "mysql",
+    host: "127.0.0.1",
     user: "root",
     database: "bldb",
     password: "example",
@@ -14,140 +15,97 @@ const connection = mysql
     // queueLimit: 0,
   })
   .promise();
-// let lists = {
-//   baseList: [
-//     { ElementName: "Апельсин", bay_state: false },
-//     { ElementName: "Мандарин", bay_state: false },
-//     { ElementName: "Яблоко", bay_state: false },
-//   ],
-//   allList: [
-//     {
-//       name: "works",
-//       mas_elements: [
-//         { ElementName: "Сходить", bay_state: false },
-//         { ElementName: "Заказать", bay_state: false },
-//         { ElementName: "Забить", bay_state: false },
-//       ],
-//     },
-//     {
-//       name: "byus",
-//       mas_elements: [
-//         { ElementName: "Апельсин", bay_state: false },
-//         { ElementName: "Мандарин", bay_state: false },
-//         { ElementName: "Яблоко", bay_state: false },
-//       ],
-//     },
-//     {
-//       name: "date",
-//       mas_elements: [
-//         { ElementName: "11", bay_state: false },
-//         { ElementName: "12", bay_state: true },
-//         { ElementName: "13", bay_state: false },
-//       ],
-//     },
-//   ],
-// };
 
-async function GetAllLists() {
-  let lists = { baseList: [], allList: [] };
-  let sqlReq = "SELECT * FROM lists ";
-  let answ = await connection
+async function removelist(listname) {
+  sqlReq = `DELETE FROM lists WHERE listName="${listname}"`;
+  connection
     .query(sqlReq)
-    .then((result) => {
-      console.log("result: ");
-      console.log(result);
-      result.forEach((element) => {
-        switch (element.listName) {
-          case "baseList":
-            lists.baseList.push({
-              ElementName: element.item,
-              bay_state: element.state,
-            });
-            break;
-
-          default:
-            if (lists.allList.length <= 0) {
-              // console.log("allList Пуст добавляем первй список", element.listName);
-              lists.allList.push({
-                name: element.listName,
-                mas_elements: [
-                  { ElementName: element.item, bay_state: element.state },
-                ],
-              });
-            } else {
-              // console.log("AllList Не пуст");
-              lists.allList.forEach((listElem) => {
-                if (listElem.name === element.listName) {
-                  // console.log(                "Имя списка совподает пытаемся добавить новый элемент в список"              );
-                  listElem.mas_elements.push({
-                    ElementName: element.item,
-                    bay_state: element.state,
-                  });
-                } else {
-                  // console.log(                "Имя списка НЕ найдено в обьекте. Добовляем список",                listElem.name              );
-                  lists.allList.push({
-                    name: element.listName,
-                    mas_elements: [
-                      { ElementName: element.item, bay_state: element.state },
-                    ],
-                  });
-                }
-              });
-            }
-        }
-      });
-      return lists;
+    .then((res) => {
+      console.log("Лист: ", listname, " удален");
+      console.log(res);
     })
     .catch((err) => {
       console.log(err);
     });
-  return answ;
 }
 
 app.get("/lists", (req, res) => {
+  ////////// Возвращает JSON строку вида:
+  // {
+  //   baseList: [
+  //     { ElementName: "Апельсин", bay_state: false },
+  //     { ElementName: "Мандарин", bay_state: false },
+  //     { ElementName: "Яблоко", bay_state: false },
+  //   ],
+  //   allList: [
+  //     {
+  //       name: "works",
+  //       mas_elements: [
+  //         { ElementName: "Сходить", bay_state: false },
+  //         { ElementName: "Заказать", bay_state: false },
+  //         { ElementName: "Забить", bay_state: false },
+  //       ],
+  //     },
+  //     {
+  //       name: "byus",
+  //       mas_elements: [
+  //         { ElementName: "Апельсин", bay_state: false },
+  //         { ElementName: "Мандарин", bay_state: false },
+  //         { ElementName: "Яблоко", bay_state: false },
+  //       ],
+  //     },
+  //     {
+  //       name: "date",
+  //       mas_elements: [
+  //         { ElementName: "11", bay_state: false },
+  //         { ElementName: "12", bay_state: true },
+  //         { ElementName: "13", bay_state: false },
+  //       ],
+  //     },
+  //   ],
+  // };
+  //////////
   let lists = { baseList: [], allList: [] };
   let sqlReq = "SELECT * FROM lists ";
   connection
     .query(sqlReq)
     .then((result) => {
       result[0].forEach((element) => {
-        switch (element.listName) {
-          case "baseList":
-            lists.baseList.push({
+        if (element.listName === "baseList") {
+          lists.baseList.push({
+            ElementName: element.item,
+            bay_state: element.state,
+          });
+        } else {
+          // if (lists.allList.length <= 0) {
+          //   // console.log("allList Пуст добавляем первй список", element.listName);
+          //   lists.allList.push({
+          //     name: element.listName,
+          //     mas_elements: [
+          //       { ElementName: element.item, bay_state: element.state },
+          //     ],
+          //   });
+          // } else {
+          // console.log("AllList Не пуст");
+          let index_list = lists.allList.findIndex(
+            (item) => item.name === element.listName
+          );
+          if (index_list === -1) {
+            // Список не найден в масиве всех листов
+            lists.allList.push({
+              name: element.listName,
+              mas_elements: [
+                { ElementName: element.item, bay_state: element.state },
+              ],
+            });
+          } else {
+            // console.log(                "Имя списка НЕ найдено в обьекте. Добовляем список",                listElem.name              );
+            lists.allList[index_list].mas_elements.push({
               ElementName: element.item,
               bay_state: element.state,
             });
-            break;
-
-          default:
-            if (lists.allList.length <= 0) {
-              // console.log("allList Пуст добавляем первй список", element.listName);
-              lists.allList.push({
-                name: element.listName,
-                mas_elements: [
-                  { ElementName: element.item, bay_state: element.state },
-                ],
-              });
-            } else {
-              // console.log("AllList Не пуст");
-              lists.allList.forEach((listElem) => {
-                if (listElem.name === element.listName) {
-                  // console.log(                "Имя списка совподает пытаемся добавить новый элемент в список"              );
-                  listElem.mas_elements.push({
-                    ElementName: element.item,
-                    bay_state: element.state,
-                  });
-                } else {
-                  // console.log(                "Имя списка НЕ найдено в обьекте. Добовляем список",                listElem.name              );
-                  lists.allList.push({
-                    name: element.listName,
-                    mas_elements: [
-                      { ElementName: element.item, bay_state: element.state },
-                    ],
-                  });
-                }
-              });
-            }
+          }
+          // }
         }
       });
       res.json(lists);
@@ -156,42 +114,73 @@ app.get("/lists", (req, res) => {
       console.log(err);
     });
 });
-app.post("/saveList", async (req, res) => {
-  const buffers = []; // буфер для получаемых данных
-
-  for await (const chunk of req) {
-    buffers.push(chunk); // добавляем в буфер все полученные данные
-  }
-  const { NameList: name, masList: mas_elements } = JSON.parse(
-    Buffer.concat(buffers).toString()
-  );
-  console.log("name");
-  console.log(name);
-  console.log("mas_elements");
-  console.log(mas_elements);
-
-  let newList = [];
-
-  mas_elements.forEach((element) => {
-    let str = [name, element.ElementName, element.bay_state];
-    newList.push(str);
+app.post("/savelist", (req, res) => {
+  ////////// Ждем JSON в формате:
+  // {
+  //   NameList: 'Тестовый список',
+  //   masList: [
+  //     { ElementName: 'Кофе', bay_state: false },
+  //     { ElementName: 'Кефир', bay_state: true },
+  //     { ElementName: 'Яблоки', bay_state: false }
+  //   ]
+  // }
+  //////////
+  let body = "";
+  req.on("data", (chank) => {
+    body = body + chank;
   });
+  req.on("end", () => {
+    const { NameList, masList } = JSON.parse(body);
 
-  const sql = `INSERT INTO lists (listName,	item,	state) VALUES ([a,b,c])`;
+    removelist(NameList);
 
-  connection
-    .query(sql, [newList])
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
+    let newList = "";
+    masList.forEach((element) => {
+      if (element.bay_state) {
+        if (newList != "") {
+          newList = `${newList},("${NameList}","${element.ElementName}",1)`;
+        } else {
+          newList = `("${NameList}","${element.ElementName}",1)`;
+        }
+      } else {
+        if (newList != "") {
+          newList = `${newList},("${NameList}","${element.ElementName}",0)`;
+        } else {
+          newList = `("${NameList}","${element.ElementName}",0)`;
+        }
+      }
     });
 
-  console.log("newList: ");
-  console.log(newList);
+    const sql = `INSERT INTO lists (listName,item,state) VALUES ${newList}`;
 
-  res.json("ok");
+    connection
+      .query(sql, [newList])
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    res.json("ok");
+  });
+});
+
+app.post("/rmlist", (req, res) => {
+  ////////// Ждем JSON в формате:
+  // {
+  //  имялиста:""
+  // }
+  //////////
+  let listname = "";
+  req.on("data", (chank) => {
+    listname = listname + chank;
+  });
+  req.on("end", () => {
+    console.log("Удаляем лист: ", listname);
+    removelist(listname);
+    res.json("Удален");
+  });
 });
 
 app.listen(PORT, () => {

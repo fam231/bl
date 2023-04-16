@@ -86,12 +86,12 @@ function App() {
   }
   async function RemoveList(ListName) {
     setLists(Lists.filter((List) => List.name !== ListName));
-    let response = await fetch("./scripts/Remove_List.php", {
+    let response = await fetch("/rmlist", {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      body: JSON.stringify(ListName),
+      body: `"${ListName}"`,
     });
-
+    console.log("ListName: ", ListName);
     if (response.ok) {
       // если HTTP-статус в диапазоне 200-299
       // получаем тело ответа (см. про этот метод ниже)
@@ -127,7 +127,7 @@ function App() {
     // });
     let query = { NameList, masList };
 
-    let response = await fetch("/saveList", {
+    let response = await fetch("/savelist", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(query),
