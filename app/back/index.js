@@ -133,7 +133,7 @@ app.get("/lists", (req, res) => {
       console.log(err);
     });
 });
-app.post("/savelist", (req, res) => {
+app.post("/saveList", (req, res) => {
   ////////// Ждем JSON в формате:
   // {
   //   NameList: 'Тестовый список',
