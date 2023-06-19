@@ -3,10 +3,18 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const mysql = require("mysql2");
 
+var con = mysql.createConnection({
+  host: "mysql",
+  // host: "127.0.0.1",
+  user: "root",
+  database: "bldb",
+  password: "example",
+});
+
 const connection = mysql
   .createConnection({
-    // host: "mysql",
-    host: "127.0.0.1",
+    host: "mysql",
+    // host: "127.0.0.1",
     user: "root",
     database: "bldb",
     password: "example",
@@ -15,6 +23,17 @@ const connection = mysql
     // queueLimit: 0,
   })
   .promise();
+
+con.connect(function (err) {
+  if (err) throw err;
+  console.log("Connected!");
+  var sql =
+    "CREATE TABLE lists (listName VARCHAR(255), item VARCHAR(255), state BOOLEAN)";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table created");
+  });
+});
 
 async function removelist(listname) {
   sqlReq = `DELETE FROM lists WHERE listName="${listname}"`;
