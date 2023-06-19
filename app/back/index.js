@@ -25,12 +25,12 @@ const connection = mysql
   .promise();
 
 con.connect(function (err) {
-  if (err) throw err;
+  if (err) console.log(err);
   console.log("Connected!");
   var sql =
     "CREATE TABLE lists (listName VARCHAR(255), item VARCHAR(255), state BOOLEAN)";
   con.query(sql, function (err, result) {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log("Table created");
   });
 });
