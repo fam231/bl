@@ -14,6 +14,7 @@ function App() {
       .then((res) => res.json())
       .then(
         (result) => {
+          console.log("result: ", result);
           setBaseList(result.baseList);
           setLists(result.allList);
         },
