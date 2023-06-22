@@ -29,8 +29,12 @@ function App() {
   }, []);
 
   function ShowList(ListName) {
-    setList(Lists.filter((List) => List.name === ListName));
-    setWorkList((work_list_visible = true));
+    if (ListName === "baseList") {
+      setList(BaseList);
+    } else {
+      setList(Lists.filter((List) => List.name === ListName));
+      setWorkList((work_list_visible = true));
+    }
   }
   async function RemoveList(ListName) {
     setLists(Lists.filter((List) => List.name !== ListName));
