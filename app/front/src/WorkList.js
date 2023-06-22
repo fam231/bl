@@ -37,7 +37,7 @@ function WorkList(props) {
 
   let newList = "";
   let list = [];
-  if (wList == BaseList) {
+  if (wList === props.BaseList) {
     list = wList.map((item, index) => {
       return (
         <li className="LiProds" key={index}>
