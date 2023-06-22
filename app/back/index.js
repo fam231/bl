@@ -35,13 +35,13 @@ con.connect(function (err) {
   });
 });
 
-async function removelist(listname) {
+async function removelist(listname, res) {
   sqlReq = `DELETE FROM lists WHERE listName="${listname}"`;
   connection
     .query(sqlReq)
-    .then((res) => {
-      console.log("Лист: ", listname, " удален");
-      console.log(res);
+    .then((answ) => {
+      console.log("answ: ", answ);
+      res.json("deleted");
     })
     .catch((err) => {
       console.log(err);
@@ -133,7 +133,7 @@ app.get("/lists", (req, res) => {
       console.log(err);
     });
 });
-app.post("/saveList", (req, res) => {
+app.post("/savelist", (req, res) => {
   ////////// Ждем JSON в формате:
   // {
   //   NameList: 'Тестовый список',
@@ -196,9 +196,7 @@ app.post("/rmlist", (req, res) => {
     listname = listname + chank;
   });
   req.on("end", () => {
-    console.log("Удаляем лист: ", listname);
-    removelist(listname);
-    res.json("Удален");
+    removelist(listname, res);
   });
 });
 
