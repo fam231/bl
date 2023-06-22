@@ -32,6 +32,7 @@ function App() {
   function ShowList(ListName) {
     if (ListName === "baseList") {
       setList(BaseList);
+      setWorkList((work_list_visible = true));
     } else {
       setList(Lists.filter((List) => List.name === ListName));
       setWorkList((work_list_visible = true));

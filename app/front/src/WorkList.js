@@ -36,38 +36,56 @@ function WorkList(props) {
   }
 
   let newList = "";
-  let list = wList.mas_elements.map((item, index) => {
-    return (
-      <li
-        className="LiProds"
-        style={
-          item.bay_state
-            ? {
-                textDecoration: "line-through",
-                color: "red",
-                // border: "1px solid red ",
-              }
-            : null
-        }
-        key={index}
-      >
-        <span className="SpanNameProd">{item.ElementName}</span>
-        <div
-          className="RemBut"
-          onClick={() => props.RmListElement(wList.name, index)}
+  let list = [];
+  if (wList == BaseList) {
+    list = wList.map((item, index) => {
+      return (
+        <li className="LiProds" key={index}>
+          <span className="SpanNameProd">{item.ElementName}</span>
+          <div
+            className="RemBut"
+            onClick={() => props.RmListElement(wList.name, index)}
+          >
+            Del
+          </div>
+        </li>
+      );
+    });
+  } else {
+    list = wList.mas_elements.map((item, index) => {
+      return (
+        <li
+          className="LiProds"
+          style={
+            item.bay_state
+              ? {
+                  textDecoration: "line-through",
+                  color: "red",
+                  // border: "1px solid red ",
+                }
+              : null
+          }
+          key={index}
         >
-          Del
-        </div>
+          <span className="SpanNameProd">{item.ElementName}</span>
+          <div
+            className="RemBut"
+            onClick={() => props.RmListElement(wList.name, index)}
+          >
+            Del
+          </div>
 
-        <input
-          className="BayCheck"
-          type="checkbox"
-          checked={item.bay_state}
-          onChange={() => props.BayItem(wList.name, index)}
-        />
-      </li>
-    );
-  });
+          <input
+            className="BayCheck"
+            type="checkbox"
+            checked={item.bay_state}
+            onChange={() => props.BayItem(wList.name, index)}
+          />
+        </li>
+      );
+    });
+  }
+
   let BaseOptions = props.BaseList.map((item, index) => {
     // console.log(props.BaseList);
     return <option key={index}>{item.ElementName}</option>;
@@ -75,7 +93,6 @@ function WorkList(props) {
 
   return (
     <div>
-      
       <h2 onClick={RenameList}>{wList.name}</h2>
       <div>
         <div className="nav_blk">
