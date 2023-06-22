@@ -96,16 +96,6 @@ app.get("/lists", (req, res) => {
             bay_state: element.state,
           });
         } else {
-          // if (lists.allList.length <= 0) {
-          //   // console.log("allList Пуст добавляем первй список", element.listName);
-          //   lists.allList.push({
-          //     name: element.listName,
-          //     mas_elements: [
-          //       { ElementName: element.item, bay_state: element.state },
-          //     ],
-          //   });
-          // } else {
-          // console.log("AllList Не пуст");
           let index_list = lists.allList.findIndex(
             (item) => item.name === element.listName
           );
@@ -118,7 +108,7 @@ app.get("/lists", (req, res) => {
               ],
             });
           } else {
-            // console.log(                "Имя списка НЕ найдено в обьекте. Добовляем список",                listElem.name              );
+            //Индекс списка найден добавляем строку списка в массив строк.
             lists.allList[index_list].mas_elements.push({
               ElementName: element.item,
               bay_state: element.state,
