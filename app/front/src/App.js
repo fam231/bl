@@ -14,59 +14,8 @@ function App() {
       .then((res) => res.json())
       .then(
         (result) => {
-          // this.setState({
-          //   isLoaded: true,
-          //   Lists: result,
-          // });
-          // let baseList = "";
-          // result.forEach((item) => {
-          //   if (item[0] === "Base_List") {
-          //     baseList = String(item[1]).split(";");
-          //   }
-          // });
           setBaseList(result.baseList);
-
-          setLists(
-            result.allList
-            // .filter((item) => {
-            //   // console.log(item);
-            //   if (item[0] !== "Base_List") {
-            //     return item;
-            //   }
-            //   return undefined;
-            // })
-            // .forEach((list) => {
-            //   const elem = { name: list, mas_elements: [] };
-            //   item[1].forEach((element) => {
-            //     elem.mas_elements.push({
-            //       ElementName: element.split(",")[0],
-            //       bay_state:
-            //         element.split(",")[1] === "true\n" ? true : false,
-            //     });
-            //   });
-            //   return elem;
-            // })
-          );
-          // for (const List of result) {
-          // if (List[0] === "Base_List") {
-          //   setBaseList(List[1]);
-          //   console.log("BaseList : " + BaseList);
-          // } else {
-          //   let nList = {
-          //     name: List[0],
-          //     mas_elements: [],
-          //   };
-          //   for (const elem of List[1]) {
-          //     const item = elem.split(",");
-          //     nList.mas_elements.push({
-          //       ElementName: item[0],
-          //       bay_state: item[1] === "true\n" ? true : false,
-          //     });
-          //   }
-          // Lists.push(nList);
-          // }
-          // setLists(Lists);
-          // }
+          setLists(result.allList);
         },
         // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
         // чтобы не перехватывать исключения из ошибок в самих компонентах.
@@ -80,7 +29,6 @@ function App() {
   }, []);
 
   function ShowList(ListName) {
-    // console.log("List " + List);
     setList(Lists.filter((List) => List.name === ListName));
     setWorkList((work_list_visible = true));
   }

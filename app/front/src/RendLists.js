@@ -47,6 +47,10 @@ function RendLists({ Lists, ShowList, AddNewList, RemoveList, BayItem }) {
       <button id="AddList" onClick={AddNewList}>
         +
       </button>
+      <button id="AddList" onClick={() => ShowList("baseList")}>
+        bl
+      </button>
+
       <ul className="ListsUl">{ListOfList}</ul>
     </div>
   );
