@@ -37,6 +37,7 @@ con.connect(function (err) {
 
 async function removelist(listname, res) {
   sqlReq = `DELETE FROM lists WHERE listName='${listname}'`;
+  console.log("sqlReq", sqlReq);
   connection
     .query(sqlReq)
     .then((answ) => {
@@ -50,7 +51,6 @@ async function removelist(listname, res) {
     .catch((err) => {
       console.log(err);
     });
-  console.log("remove is end");
 }
 
 app.get("/lists", (req, res) => {
@@ -147,7 +147,6 @@ app.post("/savelist", (req, res) => {
     const { NameList, masList } = JSON.parse(body);
 
     await removelist(NameList);
-    console.log("removed get");
 
     let newList = "";
     masList.forEach((element) => {
@@ -178,8 +177,6 @@ app.post("/savelist", (req, res) => {
       });
 
     res.json("ok");
-
-    console.log("save is end");
   });
 });
 
