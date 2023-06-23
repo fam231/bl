@@ -46,11 +46,7 @@ async function removelist(listname, res) {
     .query(sqlReq)
     .then((answ) => {
       console.log("answ: ", answ);
-      if (res) {
-        res.json("deleted");
-      } else {
-        return true;
-      }
+      return true;
     })
     .catch((err) => {
       console.log(err);
@@ -194,8 +190,9 @@ app.post("/rmlist", (req, res) => {
   req.on("data", (chank) => {
     listname = listname + chank;
   });
-  req.on("end", () => {
-    removelist(listname, res);
+  req.on("end", async () => {
+    await removelist(listname, res);
+    res.json("deleted");
   });
 });
 
