@@ -36,7 +36,11 @@ con.connect(function (err) {
 });
 
 async function removelist(listname, res) {
-  sqlReq = `DELETE FROM lists WHERE listName=${listname}`;
+  if (listname.includes('"') || listname.includes("'")) {
+    listname = listname.slice(1, listname.lenght - 1);
+  }
+
+  sqlReq = `DELETE FROM lists WHERE listName='${listname}'`;
   console.log("sqlReq", sqlReq);
   connection
     .query(sqlReq)
