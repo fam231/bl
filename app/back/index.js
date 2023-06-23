@@ -36,7 +36,7 @@ con.connect(function (err) {
 });
 
 async function removelist(listname, res) {
-  sqlReq = `DELETE FROM lists WHERE listName='${listname}'`;
+  sqlReq = `DELETE FROM lists WHERE listName=${listname}`;
   console.log("sqlReq", sqlReq);
   connection
     .query(sqlReq)
