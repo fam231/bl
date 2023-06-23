@@ -41,7 +41,9 @@ async function removelist(listname, res) {
     .query(sqlReq)
     .then((answ) => {
       console.log("answ: ", answ);
-      res.json("deleted");
+      if (res) {
+        res.json("deleted");
+      }
     })
     .catch((err) => {
       console.log(err);
