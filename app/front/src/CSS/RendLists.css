@@ -1,10 +1,13 @@
 .ListsUl {
+  font-family: "BadScript-Regular";
+  font-size: 2rem;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   list-style: none;
   width: 400px;
   margin: 10px auto;
+  padding: 0;
 }
 
 .ListsLi {
@@ -27,6 +30,7 @@
   background-color: rgb(43, 40, 36);
   margin-bottom: 5px;
   font-size: 1.2rem;
+  font-family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif";
 }
 .NameList span:first-child {
   color: orchid;
@@ -69,13 +73,15 @@
 }
 
 .liPrevivs {
-  padding: 5px;
+  padding-left: 1rem;
+  padding-right: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-size: 0.6em;
   background-color: rgb(42, 99, 125);
   margin-bottom: 2px;
+  box-shadow: rgb(42, 99, 125) 5px 5px 20px, rgb(42, 99, 125) -5px -5px 20px;
 }
 
 .liPrevivs:nth-child(2n + 1) {

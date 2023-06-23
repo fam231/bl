@@ -4,10 +4,38 @@ import RendLists from "./RendLists";
 import WorkList from "./WorkList";
 
 function App() {
-  let [Lists, setLists] = useState([]);
-  let [BaseList, setBaseList] = useState([]);
+  let [Lists, setLists] = useState([
+    {
+      name: "2023.6.22_12.1.356",
+      mas_elements: [
+        {
+          ElementName: "Чай",
+          bay_state: 0,
+        },
+      ],
+    },
+  ]);
+  let [BaseList, setBaseList] = useState([
+    {
+      ElementName: "Картошка",
+      bay_state: 0,
+    },
+    {
+      ElementName: "Сахар",
+      bay_state: 0,
+    },
+    {
+      ElementName: "Фасоль",
+      bay_state: 0,
+    },
+    {
+      ElementName: "Чай",
+      bay_state: 0,
+    },
+  ]);
   let [work_list_visible, setWorkList] = useState(false);
   let [List, setList] = useState(null);
+  let [bs_list, setbs_list] = useState(false);
 
   useEffect(() => {
     fetch("/lists")
@@ -29,13 +57,20 @@ function App() {
       );
   }, []);
 
-  function ShowList(ListName) {
+  function ShowList(ListName, is_base_list) {
     if (ListName === "baseList") {
-      setList(BaseList);
-      setWorkList((work_list_visible = true));
+      setList(
+        BaseList.map((item, index) => {
+          console.log("on BS", item);
+          return item;
+        })
+      );
+      setWorkList(true);
+      setbs_list(true);
     } else {
       setList(Lists.filter((List) => List.name === ListName));
-      setWorkList((work_list_visible = true));
+      setWorkList(true);
+      setbs_list(false);
     }
   }
   async function RemoveList(ListName) {
@@ -184,6 +219,7 @@ function App() {
           BaseList={BaseList}
           CopyDeliteList={CopyDeliteList}
           setWorkList={setWorkList}
+          bs_list={bs_list}
         />
       ) : (
         <RendLists

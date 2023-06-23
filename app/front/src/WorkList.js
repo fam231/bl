@@ -5,7 +5,7 @@ function WorkList(props) {
   let [wList] = props.List;
   let [inpNewElem, setinpNewElem] = useState("");
   let [ChakedOpt, setOptions] = useState([]);
-
+  console.log("wList: ", wList);
   function AddElementList(event) {
     event.preventDefault();
     if (inpNewElem !== "") {
@@ -37,17 +37,29 @@ function WorkList(props) {
 
   let newList = "";
   let list = [];
-  if (wList === props.BaseList) {
-    list = wList.map((item, index) => {
+  if (props.bs_list) {
+    console.log("list = BS");
+    list = props.BaseList.map((item, index) => {
       return (
         <li className="LiProds" key={index}>
           <span className="SpanNameProd">{item.ElementName}</span>
-          <div
-            className="RemBut"
-            onClick={() => props.RmListElement(wList.name, index)}
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            onClick={() => props.RmListElement(item.name, index)}
           >
-            Del
-          </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-trash"
+              viewBox="0 0 16 16"
+            >
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
+              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
+            </svg>
+          </button>
         </li>
       );
     });
@@ -68,15 +80,26 @@ function WorkList(props) {
           key={index}
         >
           <span className="SpanNameProd">{item.ElementName}</span>
-          <div
-            className="RemBut"
+          <button
+            type="button"
+            className="btn btn-outline-danger"
             onClick={() => props.RmListElement(wList.name, index)}
           >
-            Del
-          </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-trash"
+              viewBox="0 0 16 16"
+            >
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
+              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
+            </svg>
+          </button>
 
           <input
-            className="BayCheck"
+            className="form-check-input BayCheck"
             type="checkbox"
             checked={item.bay_state}
             onChange={() => props.BayItem(wList.name, index)}
@@ -93,18 +116,12 @@ function WorkList(props) {
 
   return (
     <div>
-      <h2 onClick={RenameList}>{wList.name}</h2>
+      <h2 onClick={RenameList}>{props.bs_list ? "baseList" : wList.name}</h2>
       <div>
         <div className="nav_blk">
           {/* <span className="nav_button" onClick={() => props.setWorkList(false)}>
             Списки
           </span> */}
-          <span
-            className="nav_button"
-            onClick={props.SaveList.bind(null, wList.name, wList.mas_elements)}
-          >
-            Сохранить на сервере
-          </span>
         </div>
 
         <form
@@ -115,26 +132,39 @@ function WorkList(props) {
           }
         >
           <select
-            id="BaseListSelect"
+            // id="BaseListSelect"
+            className="form-select m-2"
+            aria-label="size 1 select example"
             onChange={CheckOption}
             multiple="1"
             size="1"
           >
             {BaseOptions}
           </select>
+          {/* <input
+            
+            aria-describedby="basic-addon1"
+          /> */}
 
           <input
-            id="DirectInput"
+            // id="DirectInput"
+            type="text"
+            className="form-control m-2"
             value={inpNewElem}
             onChange={(event) => setinpNewElem(event.target.value)}
           />
-          <button className="nav_button" type="submit">
+          <button type="button" className="btn m-3 btn-outline-light">
+            Сохранить
+          </button>
+          <button className="btn m-3 btn-outline-light" type="submit">
             Добавить
           </button>
         </form>
       </div>
 
-      <ul>{wList.mas_elements !== [] ? list : newList}</ul>
+      <ul className="list-group list-group-flush">
+        {wList.mas_elements !== [] ? list : newList}
+      </ul>
     </div>
   );
 }

@@ -24,25 +24,23 @@ h2 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* border: 1px solid silver; */
+  border-bottom: 1px solid silver;
   /* border-radius: 20px; */
   /* padding: 10px 0px 10px 0px; */
   margin: 5px;
+  padding: 3px;
   text-align: left;
 }
 .SpanNameProd {
   width: 85%;
-}
-.RemBut {
-  width: 30px;
-  height: 30px;
-  color: red;
-  font-size: 15px;
+  line-height: 1rem;
+  padding: 10px;
+  font-family: "BadScript-Regular";
 }
 
 .BayCheck {
   width: 30px;
-  height: 30px;
+  margin: 6px;
 }
 .nav_blk {
   display: flex;
