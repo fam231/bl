@@ -118,12 +118,6 @@ function WorkList(props) {
     <div>
       <h2 onClick={RenameList}>{props.bs_list ? "baseList" : wList.name}</h2>
       <div>
-        <div className="nav_blk">
-          {/* <span className="nav_button" onClick={() => props.setWorkList(false)}>
-            Списки
-          </span> */}
-        </div>
-
         <form
           id="AddForm"
           onSubmit={
@@ -153,7 +147,18 @@ function WorkList(props) {
             value={inpNewElem}
             onChange={(event) => setinpNewElem(event.target.value)}
           />
-          <button type="button" className="btn m-3 btn-outline-light">
+          <button
+            type="button"
+            className="btn m-3 btn-outline-light"
+            onClick={() => props.setWorkList(false)}
+          >
+            Списки
+          </button>
+          <button
+            type="button"
+            className="btn m-3 btn-outline-light"
+            onClick={props.SaveList.bind(null, wList.name, wList.mas_elements)}
+          >
             Сохранить
           </button>
           <button className="btn m-3 btn-outline-light" type="submit">
