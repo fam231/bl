@@ -36,7 +36,7 @@ con.connect(function (err) {
 });
 
 async function removelist(listname, res) {
-  sqlReq = `DELETE FROM lists WHERE listName=${listname}`;
+  sqlReq = `DELETE FROM lists WHERE listName='${listname}'`;
   connection
     .query(sqlReq)
     .then((answ) => {
@@ -146,42 +146,39 @@ app.post("/savelist", (req, res) => {
   req.on("end", async () => {
     const { NameList, masList } = JSON.parse(body);
 
-    let removed = await removelist(NameList);
+    await removelist(NameList);
     console.log("removed get");
-    if (removed) {
-      console.log("in save bloke");
-      let newList = "";
-      masList.forEach((element) => {
-        if (element.bay_state) {
-          if (newList != "") {
-            newList = `${newList},("${NameList}","${element.ElementName}",1)`;
-          } else {
-            newList = `("${NameList}","${element.ElementName}",1)`;
-          }
+
+    let newList = "";
+    masList.forEach((element) => {
+      if (element.bay_state) {
+        if (newList != "") {
+          newList = `${newList},("${NameList}","${element.ElementName}",1)`;
         } else {
-          if (newList != "") {
-            newList = `${newList},("${NameList}","${element.ElementName}",0)`;
-          } else {
-            newList = `("${NameList}","${element.ElementName}",0)`;
-          }
+          newList = `("${NameList}","${element.ElementName}",1)`;
         }
+      } else {
+        if (newList != "") {
+          newList = `${newList},("${NameList}","${element.ElementName}",0)`;
+        } else {
+          newList = `("${NameList}","${element.ElementName}",0)`;
+        }
+      }
+    });
+
+    const sql = `INSERT INTO lists (listName,item,state) VALUES ${newList}`;
+
+    connection
+      .query(sql, [newList])
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
 
-      const sql = `INSERT INTO lists (listName,item,state) VALUES ${newList}`;
+    res.json("ok");
 
-      connection
-        .query(sql, [newList])
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      res.json("ok");
-    } else {
-      res.json("err samfing wrong");
-    }
     console.log("save is end");
   });
 });
