@@ -43,6 +43,8 @@ async function removelist(listname, res) {
       console.log("answ: ", answ);
       if (res) {
         res.json("deleted");
+      } else {
+        return true;
       }
     })
     .catch((err) => {
@@ -140,40 +142,43 @@ app.post("/savelist", (req, res) => {
   req.on("data", (chank) => {
     body = body + chank;
   });
-  req.on("end", () => {
+  req.on("end", async () => {
     const { NameList, masList } = JSON.parse(body);
 
-    removelist(NameList);
-
-    let newList = "";
-    masList.forEach((element) => {
-      if (element.bay_state) {
-        if (newList != "") {
-          newList = `${newList},("${NameList}","${element.ElementName}",1)`;
+    let removed = await removelist(NameList);
+    if (removed) {
+      let newList = "";
+      masList.forEach((element) => {
+        if (element.bay_state) {
+          if (newList != "") {
+            newList = `${newList},("${NameList}","${element.ElementName}",1)`;
+          } else {
+            newList = `("${NameList}","${element.ElementName}",1)`;
+          }
         } else {
-          newList = `("${NameList}","${element.ElementName}",1)`;
+          if (newList != "") {
+            newList = `${newList},("${NameList}","${element.ElementName}",0)`;
+          } else {
+            newList = `("${NameList}","${element.ElementName}",0)`;
+          }
         }
-      } else {
-        if (newList != "") {
-          newList = `${newList},("${NameList}","${element.ElementName}",0)`;
-        } else {
-          newList = `("${NameList}","${element.ElementName}",0)`;
-        }
-      }
-    });
-
-    const sql = `INSERT INTO lists (listName,item,state) VALUES ${newList}`;
-
-    connection
-      .query(sql, [newList])
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
       });
 
-    res.json("ok");
+      const sql = `INSERT INTO lists (listName,item,state) VALUES ${newList}`;
+
+      connection
+        .query(sql, [newList])
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      res.json("ok");
+    } else {
+      res.json("err samfing wrong");
+    }
   });
 });
 
