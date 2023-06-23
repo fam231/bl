@@ -50,6 +50,7 @@ async function removelist(listname, res) {
     .catch((err) => {
       console.log(err);
     });
+  console.log("remove is end");
 }
 
 app.get("/lists", (req, res) => {
@@ -146,7 +147,9 @@ app.post("/savelist", (req, res) => {
     const { NameList, masList } = JSON.parse(body);
 
     let removed = await removelist(NameList);
+    console.log("removed get");
     if (removed) {
+      console.log("in save bloke");
       let newList = "";
       masList.forEach((element) => {
         if (element.bay_state) {
@@ -179,6 +182,7 @@ app.post("/savelist", (req, res) => {
     } else {
       res.json("err samfing wrong");
     }
+    console.log("save is end");
   });
 });
 
