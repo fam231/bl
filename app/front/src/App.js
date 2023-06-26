@@ -78,7 +78,7 @@ function App() {
     let response = await fetch("/rmlist", {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      body: Json.stringify(NameList),
+      body: JSON.stringify(NameList),
     });
     if (response.ok) {
       // если HTTP-статус в диапазоне 200-299
