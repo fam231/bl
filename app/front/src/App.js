@@ -73,14 +73,13 @@ function App() {
       setbs_list(false);
     }
   }
-  async function RemoveList(ListName) {
-    setLists(Lists.filter((List) => List.name !== ListName));
+  async function RemoveList(NameList) {
+    setLists(Lists.filter((List) => List.name !== NameList));
     let response = await fetch("/rmlist", {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      body: `"${ListName}"`,
+      body: Json.stringify(NameList),
     });
-    console.log("ListName: ", ListName);
     if (response.ok) {
       // если HTTP-статус в диапазоне 200-299
       // получаем тело ответа (см. про этот метод ниже)
