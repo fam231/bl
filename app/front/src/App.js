@@ -14,25 +14,29 @@ function App() {
         },
       ],
     },
+    {
+      name: "baseList",
+      mas_elements: [
+        {
+          ElementName: "Картошка",
+          bay_state: 0,
+        },
+        {
+          ElementName: "Сахар",
+          bay_state: 0,
+        },
+        {
+          ElementName: "Фасоль",
+          bay_state: 0,
+        },
+        {
+          ElementName: "Чай",
+          bay_state: 0,
+        },
+      ],
+    },
   ]);
-  let [BaseList, setBaseList] = useState([
-    {
-      ElementName: "Картошка",
-      bay_state: 0,
-    },
-    {
-      ElementName: "Сахар",
-      bay_state: 0,
-    },
-    {
-      ElementName: "Фасоль",
-      bay_state: 0,
-    },
-    {
-      ElementName: "Чай",
-      bay_state: 0,
-    },
-  ]);
+  let BaseList = Lists.filter((item) => item.name === "baseList");
   let [work_list_visible, setWorkList] = useState(false);
   let [List, setList] = useState(null);
   let [bs_list, setbs_list] = useState(false);
@@ -43,7 +47,7 @@ function App() {
       .then(
         (result) => {
           console.log("result: ", result);
-          setBaseList(result.baseList);
+          // setBaseList(result.baseList);
           setLists(result.allList);
         },
         // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
@@ -57,21 +61,14 @@ function App() {
       );
   }, []);
 
-  function ShowList(ListName, is_base_list) {
+  function ShowList(ListName) {
     if (ListName === "baseList") {
-      setList(
-        BaseList.map((item, index) => {
-          console.log("on BS", item);
-          return item;
-        })
-      );
-      setWorkList(true);
       setbs_list(true);
     } else {
-      setList(Lists.filter((List) => List.name === ListName));
-      setWorkList(true);
       setbs_list(false);
     }
+    setList(Lists.filter((List) => List.name === ListName));
+    setWorkList(true);
   }
   async function RemoveList(NameList) {
     setLists(Lists.filter((List) => List.name !== NameList));

@@ -36,10 +36,6 @@ con.connect(function (err) {
 });
 
 async function removelist(listname) {
-  // if (listname.includes('"') || listname.includes("'")) {
-  //   listname = listname.slice(1, listname.lenght - 1);
-  // }
-
   sqlReq = `DELETE FROM lists WHERE listName='${listname}'`;
   console.log("sqlReq", sqlReq);
   connection
@@ -95,32 +91,32 @@ app.get("/lists", (req, res) => {
     .query(sqlReq)
     .then((result) => {
       result[0].forEach((element) => {
-        if (element.listName === "baseList") {
-          lists.baseList.push({
+        // if (element.listName === "baseList") {
+        //   lists.baseList.push({
+        //     ElementName: element.item,
+        //     bay_state: element.state,
+        //   });
+        // } else {
+        let index_list = lists.allList.findIndex(
+          (item) => item.name === element.listName
+        );
+        if (index_list === -1) {
+          // Список не найден в масиве всех листов
+          lists.allList.push({
+            name: element.listName,
+            mas_elements: [
+              { ElementName: element.item, bay_state: element.state },
+            ],
+          });
+        } else {
+          //Индекс списка найден добавляем строку списка в массив строк.
+          lists.allList[index_list].mas_elements.push({
             ElementName: element.item,
             bay_state: element.state,
           });
-        } else {
-          let index_list = lists.allList.findIndex(
-            (item) => item.name === element.listName
-          );
-          if (index_list === -1) {
-            // Список не найден в масиве всех листов
-            lists.allList.push({
-              name: element.listName,
-              mas_elements: [
-                { ElementName: element.item, bay_state: element.state },
-              ],
-            });
-          } else {
-            //Индекс списка найден добавляем строку списка в массив строк.
-            lists.allList[index_list].mas_elements.push({
-              ElementName: element.item,
-              bay_state: element.state,
-            });
-          }
-          // }
         }
+        // }
+        // }
       });
       res.json(lists);
     })
