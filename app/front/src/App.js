@@ -46,7 +46,6 @@ function App() {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log("result: ", result);
           // setBaseList(result.baseList);
           setLists(result.allList);
         },
@@ -81,7 +80,6 @@ function App() {
       // если HTTP-статус в диапазоне 200-299
       // получаем тело ответа (см. про этот метод ниже)
       // let json = await response.json();
-      console.log(response.text());
     } else {
       alert("Ошибка HTTP: " + response.status);
     }
@@ -102,7 +100,6 @@ function App() {
         return list;
       })
     );
-    console.log("Lists: ", Lists);
     // setWorkList((work_list_visible = false));
   }
   async function SaveList(NameList, masList) {
@@ -123,7 +120,6 @@ function App() {
       // получаем тело ответа (см. про этот метод ниже)
       // let json = await response.json();
       // alert("Отправил")
-      // console.log(response.text());
       // let lists = Lists;
       // lists.push({ name: NameList, mas_elements: masList });
       // setLists(lists);

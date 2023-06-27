@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./CSS/WorkList.css";
 function WorkList(props) {
-  let [wList] = props.List;
+  let wList = props.List[0];
   // if (props.bs_list) {
   //   wList.mas_elements = props.BaseList;
   // }
 
   let [inpNewElem, setinpNewElem] = useState("");
   let [ChakedOpt, setOptions] = useState([]);
-  console.log("wList: ", wList);
+
   function AddElementList(event) {
     event.preventDefault();
     if (inpNewElem !== "") {
@@ -88,9 +88,12 @@ function WorkList(props) {
     );
   });
 
-  let BaseOptions = props.BaseList[0].mas_elements.map((item, index) => {
-    return <option key={index}>{item.ElementName}</option>;
-  });
+  let BaseOptions = <option></option>;
+  if (props.BaseList.length > 0) {
+    BaseOptions = props.BaseList[0].mas_elements.map((item, index) => {
+      return <option key={index}>{item.ElementName}</option>;
+    });
+  }
 
   return (
     <div>

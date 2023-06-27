@@ -4,8 +4,6 @@ import "./CSS/RendLists.css";
 
 function RendLists({ Lists, ShowList, AddNewList, RemoveList, BayItem }) {
   let ListOfList = Lists.map((list, index) => {
-    console.log(list.name);
-
     let liPrevivs = list.mas_elements.map((elem, index) => {
       return (
         <li
