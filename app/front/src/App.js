@@ -36,7 +36,9 @@ function App() {
       ],
     },
   ]);
-  let BaseList = Lists.filter((item) => item.name === "baseList");
+  let [BaseList, setBaseList] = useState(
+    Lists.filter((item) => item.name === "baseList")
+  );
   let [work_list_visible, setWorkList] = useState(false);
   let [List, setList] = useState(null);
   let [bs_list, setbs_list] = useState(false);
@@ -46,7 +48,9 @@ function App() {
       .then((res) => res.json())
       .then(
         (result) => {
-          // setBaseList(result.baseList);
+          setBaseList(
+            result.allList.filter((item) => item.name === "baseList")
+          );
           setLists(result.allList);
         },
         // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
@@ -69,6 +73,7 @@ function App() {
     setList(Lists.filter((List) => List.name === ListName));
     setWorkList(true);
   }
+
   async function RemoveList(NameList) {
     setLists(Lists.filter((List) => List.name !== NameList));
     let response = await fetch("/rmlist", {
@@ -129,34 +134,65 @@ function App() {
     }
   }
   function ChangeList(NameList, inpNewElem) {
-    setLists(
-      Lists.map((element) => {
-        if (element.name === NameList) {
-          let elemExist = false;
-          element.mas_elements.forEach((item) => {
-            if (item.ElementName === inpNewElem) {
-              elemExist = true;
+    if (NameList === "baseList") {
+      setBaseList(
+        BaseList.map((element) => {
+          if (element.name === NameList) {
+            let elemExist = false;
+            element.mas_elements.forEach((item) => {
+              if (item.ElementName === inpNewElem) {
+                elemExist = true;
+              }
+            });
+            if (!elemExist) {
+              element.mas_elements.push({
+                ElementName: inpNewElem,
+                bay_state: false,
+              });
             }
-          });
-          if (!elemExist) {
-            element.mas_elements.push({
-              ElementName: inpNewElem,
-              bay_state: false,
+            element.mas_elements.sort((a, b) => {
+              if (a.ElementName > b.ElementName) {
+                return 1;
+              }
+              if (a.ElementName < b.ElementName) {
+                return -1;
+              }
+              return 0;
             });
           }
-          element.mas_elements.sort((a, b) => {
-            if (a.ElementName > b.ElementName) {
-              return 1;
+          return element;
+        })
+      );
+    } else {
+      setLists(
+        Lists.map((element) => {
+          if (element.name === NameList) {
+            let elemExist = false;
+            element.mas_elements.forEach((item) => {
+              if (item.ElementName === inpNewElem) {
+                elemExist = true;
+              }
+            });
+            if (!elemExist) {
+              element.mas_elements.push({
+                ElementName: inpNewElem,
+                bay_state: false,
+              });
             }
-            if (a.ElementName < b.ElementName) {
-              return -1;
-            }
-            return 0;
-          });
-        }
-        return element;
-      })
-    );
+            element.mas_elements.sort((a, b) => {
+              if (a.ElementName > b.ElementName) {
+                return 1;
+              }
+              if (a.ElementName < b.ElementName) {
+                return -1;
+              }
+              return 0;
+            });
+          }
+          return element;
+        })
+      );
+    }
   }
   function RmListElement(NameList, IndexElement) {
     setLists(

@@ -2,24 +2,34 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./CSS/WorkList.css";
 function WorkList(props) {
-  let wList = props.List[0];
-  // if (props.bs_list) {
-  //   wList.mas_elements = props.BaseList;
-  // }
-
+  console.log("Начало WorkList", props);
   let [inpNewElem, setinpNewElem] = useState("");
   let [ChakedOpt, setOptions] = useState([]);
+
+  let list_name = "";
+  let list_list = [];
+  console.log("props.bs_list: ", props.bs_list);
+  if (props.bs_list) {
+    list_list = props.BaseList[0].mas_elements;
+    list_name = "baseList";
+  } else {
+    list_list = props.List[0].mas_elements;
+    list_name = props.List[0].name;
+  }
 
   function AddElementList(event) {
     event.preventDefault();
     if (inpNewElem !== "") {
-      props.ChangeList(wList.name, inpNewElem.trim());
+      console.log("inpNewElem.trim(): ", inpNewElem.trim());
+      console.log("list_name: ", list_name);
+      props.ChangeList(list_name, inpNewElem.trim());
+
       setinpNewElem("");
     }
     if (ChakedOpt.length > 0) {
       ChakedOpt.forEach((element) => {
         if (element !== "") {
-          props.ChangeList(wList.name, element);
+          props.ChangeList(list_name, element);
         }
       });
       setOptions([]);
@@ -35,13 +45,14 @@ function WorkList(props) {
   function RenameList(event) {
     let newName = prompt("Новое имя?");
     if (newName !== "") {
-      props.CopyDeliteList(newName, event.target.innerText, wList.mas_elements);
+      props.CopyDeliteList(newName, event.target.innerText, list_list);
     }
   }
 
-  let newList = "";
+  // let newList = "";
 
-  let list = wList.mas_elements.map((item, index) => {
+  let list = list_list.map((item, index) => {
+    console.log(item);
     return (
       <li
         className="LiProds"
@@ -57,10 +68,11 @@ function WorkList(props) {
         key={index}
       >
         <span className="SpanNameProd">{item.ElementName}</span>
+
         <button
           type="button"
           className="btn btn-outline-danger"
-          onClick={() => props.RmListElement(wList.name, index)}
+          onClick={() => props.RmListElement(list_name, index)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +91,7 @@ function WorkList(props) {
             className="form-check-input BayCheck"
             type="checkbox"
             checked={item.bay_state}
-            onChange={() => props.BayItem(wList.name, index)}
+            onChange={() => props.BayItem(list_name, index)}
           />
         ) : (
           ""
@@ -93,17 +105,18 @@ function WorkList(props) {
     BaseOptions = props.BaseList[0].mas_elements.map((item, index) => {
       return <option key={index}>{item.ElementName}</option>;
     });
+    console.log("BaseOptions: ", BaseOptions);
   }
 
   return (
     <div>
-      <h2 onClick={RenameList}>{props.bs_list ? "baseList" : wList.name}</h2>
+      <h2 onClick={RenameList}>{list_name}</h2>
       <div>
         <form
           id="AddForm"
           onSubmit={
             AddElementList
-            //(event) => props.CangeList(event, wList.name, inpNewElem)
+            //(event) => props.CangeList(event, list_name, inpNewElem)
           }
         >
           <select
@@ -138,7 +151,7 @@ function WorkList(props) {
           <button
             type="button"
             className="btn m-3 btn-outline-light"
-            onClick={props.SaveList.bind(null, wList.name, wList.mas_elements)}
+            onClick={props.SaveList.bind(null, list_name, list_list)}
           >
             Сохранить
           </button>
@@ -148,9 +161,7 @@ function WorkList(props) {
         </form>
       </div>
 
-      <ul className="list-group list-group-flush">
-        {wList.mas_elements !== [] ? list : newList}
-      </ul>
+      <ul className="list-group list-group-flush">{list}</ul>
     </div>
   );
 }
