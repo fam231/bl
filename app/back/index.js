@@ -11,7 +11,26 @@ var con = mysql.createConnection({
   password: "example",
 });
 
-const connection = mysql
+con.connect(function (err) {
+  if (err) console.log(err);
+  console.log("con Connected!");
+  var sql = "SHOW TABLES LIKE 'lists';";
+  con.query(sql, function (err, result) {
+    if (err) console.log(err);
+
+    if (!result.length) {
+      console.log("Таблицы нет");
+      var sql =
+        "CREATE TABLE lists (listName VARCHAR(255), item VARCHAR(255), state BOOLEAN)";
+      con.query(sql, function (err, result) {
+        if (err) console.log(err);
+        console.log("Таблица создана");
+      });
+    }
+  });
+});
+
+var connection = mysql
   .createConnection({
     // host: "mysql",
     host: "127.0.0.1",
@@ -23,17 +42,6 @@ const connection = mysql
     // queueLimit: 0,
   })
   .promise();
-
-con.connect(function (err) {
-  if (err) console.log(err);
-  console.log("Connected!");
-  var sql =
-    "CREATE TABLE lists (listName VARCHAR(255), item VARCHAR(255), state BOOLEAN)";
-  con.query(sql, function (err, result) {
-    if (err) console.log(err);
-    console.log("Table created");
-  });
-});
 
 async function removelist(listname) {
   sqlReq = `DELETE FROM lists WHERE listName='${listname}'`;
