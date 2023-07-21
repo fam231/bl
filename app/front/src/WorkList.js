@@ -10,7 +10,7 @@ function WorkList(props) {
   let list_list = [];
   console.log("props.bs_list: ", props.bs_list);
   if (props.bs_list) {
-    if (BaseList.length > 0) {
+    if (props.BaseList.length > 0) {
       list_list = props.BaseList[0].mas_elements;
     }
 
