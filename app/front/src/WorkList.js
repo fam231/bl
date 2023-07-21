@@ -10,7 +10,10 @@ function WorkList(props) {
   let list_list = [];
   console.log("props.bs_list: ", props.bs_list);
   if (props.bs_list) {
-    list_list = props.BaseList[0].mas_elements;
+    if (BaseList.length > 0) {
+      list_list = props.BaseList[0].mas_elements;
+    }
+
     list_name = "baseList";
   } else {
     list_list = props.List[0].mas_elements;
@@ -50,55 +53,57 @@ function WorkList(props) {
   }
 
   // let newList = "";
-
-  let list = list_list.map((item, index) => {
-    console.log(item);
-    return (
-      <li
-        className="LiProds"
-        style={
-          item.bay_state
-            ? {
-                textDecoration: "line-through",
-                color: "red",
-                // border: "1px solid red ",
-              }
-            : null
-        }
-        key={index}
-      >
-        <span className="SpanNameProd">{item.ElementName}</span>
-
-        <button
-          type="button"
-          className="btn btn-outline-danger"
-          onClick={() => props.RmListElement(list_name, index)}
+  let list = "";
+  if (list_list.length > 0) {
+    list = list_list.map((item, index) => {
+      console.log(item);
+      return (
+        <li
+          className="LiProds"
+          style={
+            item.bay_state
+              ? {
+                  textDecoration: "line-through",
+                  color: "red",
+                  // border: "1px solid red ",
+                }
+              : null
+          }
+          key={index}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-trash"
-            viewBox="0 0 16 16"
+          <span className="SpanNameProd">{item.ElementName}</span>
+
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            onClick={() => props.RmListElement(list_name, index)}
           >
-            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
-            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
-          </svg>
-        </button>
-        {props.bs_list ? (
-          <input
-            className="form-check-input BayCheck"
-            type="checkbox"
-            checked={item.bay_state}
-            onChange={() => props.BayItem(list_name, index)}
-          />
-        ) : (
-          ""
-        )}
-      </li>
-    );
-  });
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-trash"
+              viewBox="0 0 16 16"
+            >
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
+              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
+            </svg>
+          </button>
+          {props.bs_list ? (
+            <input
+              className="form-check-input BayCheck"
+              type="checkbox"
+              checked={item.bay_state}
+              onChange={() => props.BayItem(list_name, index)}
+            />
+          ) : (
+            ""
+          )}
+        </li>
+      );
+    });
+  }
 
   let BaseOptions = <option></option>;
   if (props.BaseList.length > 0) {
