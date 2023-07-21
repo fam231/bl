@@ -4,8 +4,8 @@ const app = express();
 const mysql = require("mysql2");
 
 var con = mysql.createConnection({
-  // host: "mysql",
-  host: "127.0.0.1",
+  host: "mysql",
+  // host: "127.0.0.1",
   user: "root",
   database: "bldb",
   password: "example",
@@ -32,8 +32,8 @@ con.connect(function (err) {
 
 var connection = mysql
   .createConnection({
-    // host: "mysql",
-    host: "127.0.0.1",
+    host: "mysql",
+    // host: "127.0.0.1",
     user: "root",
     database: "bldb",
     password: "example",
