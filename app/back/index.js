@@ -13,7 +13,6 @@ var con = mysql.createConnection({
 
 con.connect(function (err) {
   if (err) console.log(err);
-  console.log("con Connected!");
   var sql = "SHOW TABLES LIKE 'lists';";
   con.query(sql, function (err, result) {
     if (err) console.log(err);
@@ -45,11 +44,11 @@ var connection = mysql
 
 async function removelist(listname) {
   sqlReq = `DELETE FROM lists WHERE listName='${listname}'`;
-  console.log("sqlReq", sqlReq);
+  // console.log("sqlReq", sqlReq);
   connection
     .query(sqlReq)
     .then((answ) => {
-      console.log("answ: ", answ);
+      // console.log("answ: ", answ);
       return true;
     })
     .catch((err) => {
@@ -60,9 +59,7 @@ async function removelist(listname) {
 app.get("/lists", (req, res) => {
   ////////// Возвращает JSON строку вида:
   // {
-  //   baseList: [
-  //     { ElementName: "Апельсин", bay_state: false },
-  //     { ElementName: "Мандарин", bay_state: false },
+  //   baseList: ["Апельсин", "Мандарин", bay_state: false },
   //     { ElementName: "Яблоко", bay_state: false },
   //   ],
   //   allList: [
@@ -99,31 +96,28 @@ app.get("/lists", (req, res) => {
     .query(sqlReq)
     .then((result) => {
       result[0].forEach((element) => {
-        // if (element.listName === "baseList") {
-        //   lists.baseList.push({
-        //     ElementName: element.item,
-        //     bay_state: element.state,
-        //   });
-        // } else {
-        let index_list = lists.allList.findIndex(
-          (item) => item.name === element.listName
-        );
-        if (index_list === -1) {
-          // Список не найден в масиве всех листов
-          lists.allList.push({
-            name: element.listName,
-            mas_elements: [
-              { ElementName: element.item, bay_state: element.state },
-            ],
-          });
+        if (element.listName === "baseList") {
+          lists.baseList.push(element.item);
         } else {
-          //Индекс списка найден добавляем строку списка в массив строк.
-          lists.allList[index_list].mas_elements.push({
-            ElementName: element.item,
-            bay_state: element.state,
-          });
+          let index_list = lists.allList.findIndex(
+            (item) => item.name === element.listName
+          );
+          if (index_list === -1) {
+            // Список не найден в масиве всех листов
+            lists.allList.push({
+              name: element.listName,
+              mas_elements: [
+                { ElementName: element.item, bay_state: element.state },
+              ],
+            });
+          } else {
+            //Индекс списка найден добавляем строку списка в массив строк.
+            lists.allList[index_list].mas_elements.push({
+              ElementName: element.item,
+              bay_state: element.state,
+            });
+          }
         }
-        // }
         // }
       });
       res.json(lists);
@@ -142,7 +136,13 @@ app.post("/savelist", (req, res) => {
   //     { ElementName: 'Яблоки', bay_state: false }
   //   ]
   // }
+  ////////// Или
+  // {
+  //   NameList: 'baseList',
+  //   masList: ["Бананы", "Какосы"]
+  // }
   //////////
+
   let body = "";
   req.on("data", (chank) => {
     body = body + chank;
@@ -153,21 +153,31 @@ app.post("/savelist", (req, res) => {
     await removelist(NameList);
 
     let newList = "";
-    masList.forEach((element) => {
-      if (element.bay_state) {
+    if (NameList == "baseList") {
+      masList.forEach((item) => {
         if (newList != "") {
-          newList = `${newList},("${NameList}","${element.ElementName}",1)`;
+          newList = `${newList},("${NameList}","${item}",0)`;
         } else {
-          newList = `("${NameList}","${element.ElementName}",1)`;
+          newList = `("${NameList}","${item}",0)`;
         }
-      } else {
-        if (newList != "") {
-          newList = `${newList},("${NameList}","${element.ElementName}",0)`;
+      });
+    } else {
+      masList.forEach((element) => {
+        if (element.bay_state) {
+          if (newList != "") {
+            newList = `${newList},("${NameList}","${element.ElementName}",1)`;
+          } else {
+            newList = `("${NameList}","${element.ElementName}",1)`;
+          }
         } else {
-          newList = `("${NameList}","${element.ElementName}",0)`;
+          if (newList != "") {
+            newList = `${newList},("${NameList}","${element.ElementName}",0)`;
+          } else {
+            newList = `("${NameList}","${element.ElementName}",0)`;
+          }
         }
-      }
-    });
+      });
+    }
 
     const sql = `INSERT INTO lists (listName,item,state) VALUES ${newList}`;
 

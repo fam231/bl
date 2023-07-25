@@ -2,55 +2,34 @@ import React, { useEffect, useState } from "react";
 import "./CSS/App.css";
 import RendLists from "./RendLists";
 import WorkList from "./WorkList";
+import BaseListRendr from "./BaseListRendr";
 
 function App() {
   let [Lists, setLists] = useState([
-    {
-      name: "2023.6.22_12.1.356",
-      mas_elements: [
-        {
-          ElementName: "Чай",
-          bay_state: 0,
-        },
-      ],
-    },
-    {
-      name: "baseList",
-      mas_elements: [
-        {
-          ElementName: "Картошка",
-          bay_state: 0,
-        },
-        {
-          ElementName: "Сахар",
-          bay_state: 0,
-        },
-        {
-          ElementName: "Фасоль",
-          bay_state: 0,
-        },
-        {
-          ElementName: "Чай",
-          bay_state: 0,
-        },
-      ],
-    },
+    // {
+    //   name: "2023.6.22_12.1.356",
+    //   mas_elements: [
+    //     {
+    //       ElementName: "Чай",
+    //       bay_state: 0,
+    //     },
+    //   ],
+    // },
   ]);
-  let [BaseList, setBaseList] = useState(
-    Lists.filter((item) => item.name === "baseList")
-  );
+  let [baseList, setbaseList] = useState(["Апельсин", "Мандарин", "Яблоко"]);
   let [work_list_visible, setWorkList] = useState(false);
   let [List, setList] = useState(null);
-  let [bs_list, setbs_list] = useState(false);
+  let [showBsList, setshowBsList] = useState(false);
 
-  useEffect(() => {
+  useEffect(getLists, []);
+
+  function getLists() {
     fetch("/lists")
       .then((res) => res.json())
       .then(
         (result) => {
-          setBaseList(
-            result.allList.filter((item) => item.name === "baseList")
-          );
+          setbaseList(result.baseList);
+          console.log("result.baseList: ", result.baseList);
           setLists(result.allList);
         },
         // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
@@ -62,15 +41,12 @@ function App() {
           // });
         }
       );
-  }, []);
+  }
 
   function ShowList(ListName) {
-    if (ListName === "baseList") {
-      setbs_list(true);
-    } else {
-      setbs_list(false);
+    if (ListName !== "baseList") {
+      setList(Lists.filter((List) => List.name === ListName)[0]);
     }
-    setList(Lists.filter((List) => List.name === ListName));
     setWorkList(true);
   }
 
@@ -90,28 +66,10 @@ function App() {
     }
   }
   function CopyDeliteList(NewName, OldName, mas_elements) {
+    RemoveList(OldName);
     SaveList(NewName, mas_elements);
-    SaveList(OldName, []);
-    setTimeout(() => {
-      setTimeout(() => {}, 500);
-    }, 1000);
-    // setList(Lists.filter((List) => List.name === NewName));
-    setLists(
-      Lists.filter((list) => {
-        if (list.name === OldName) {
-          list.name = NewName;
-          list.mas_elements = mas_elements;
-        }
-        return list;
-      })
-    );
-    // setWorkList((work_list_visible = false));
   }
   async function SaveList(NameList, masList) {
-    // let dataStr = "";
-    // masList.forEach((element) => {
-    //   dataStr += element.ElementName + "," + element.bay_state + "\n";
-    // });
     let query = { NameList, masList };
 
     let response = await fetch("/savelist", {
@@ -129,69 +87,9 @@ function App() {
       // lists.push({ name: NameList, mas_elements: masList });
       // setLists(lists);
       setWorkList(false);
+      getLists();
     } else {
       alert("Ошибка HTTP: " + response.status);
-    }
-  }
-  function ChangeList(NameList, inpNewElem) {
-    if (NameList === "baseList") {
-      setBaseList(
-        BaseList.map((element) => {
-          if (element.name === NameList) {
-            let elemExist = false;
-            element.mas_elements.forEach((item) => {
-              if (item.ElementName === inpNewElem) {
-                elemExist = true;
-              }
-            });
-            if (!elemExist) {
-              element.mas_elements.push({
-                ElementName: inpNewElem,
-                bay_state: false,
-              });
-            }
-            element.mas_elements.sort((a, b) => {
-              if (a.ElementName > b.ElementName) {
-                return 1;
-              }
-              if (a.ElementName < b.ElementName) {
-                return -1;
-              }
-              return 0;
-            });
-          }
-          return element;
-        })
-      );
-    } else {
-      setLists(
-        Lists.map((element) => {
-          if (element.name === NameList) {
-            let elemExist = false;
-            element.mas_elements.forEach((item) => {
-              if (item.ElementName === inpNewElem) {
-                elemExist = true;
-              }
-            });
-            if (!elemExist) {
-              element.mas_elements.push({
-                ElementName: inpNewElem,
-                bay_state: false,
-              });
-            }
-            element.mas_elements.sort((a, b) => {
-              if (a.ElementName > b.ElementName) {
-                return 1;
-              }
-              if (a.ElementName < b.ElementName) {
-                return -1;
-              }
-              return 0;
-            });
-          }
-          return element;
-        })
-      );
     }
   }
   function RmListElement(NameList, IndexElement) {
@@ -230,9 +128,8 @@ function App() {
       "." +
       date.getMilliseconds();
 
-    Lists = Lists.concat({ name: NewListName, mas_elements: [] });
-    setLists(Lists);
-    setList(Lists.filter((List) => List.name === NewListName));
+    setLists(Lists.concat({ name: NewListName, mas_elements: [] }));
+    setList({ name: NewListName, mas_elements: [] });
     setWorkList((work_list_visible = true));
   }
   return (
@@ -240,14 +137,20 @@ function App() {
       {work_list_visible ? (
         <WorkList
           List={List}
+          setList={setList}
           SaveList={SaveList}
-          ChangeList={ChangeList}
           BayItem={BayItem}
           RmListElement={RmListElement}
-          BaseList={BaseList}
+          baseList={baseList}
           CopyDeliteList={CopyDeliteList}
           setWorkList={setWorkList}
-          bs_list={bs_list}
+        />
+      ) : showBsList ? (
+        <BaseListRendr
+          baseList={baseList}
+          setbaseList={setbaseList}
+          SaveList={SaveList}
+          setshowBsList={setshowBsList}
         />
       ) : (
         <RendLists
@@ -256,6 +159,7 @@ function App() {
           RemoveList={RemoveList}
           AddNewList={AddNewList}
           BayItem={BayItem}
+          setshowBsList={setshowBsList}
         />
       )}
     </div>

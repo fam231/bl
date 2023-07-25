@@ -2,33 +2,51 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./CSS/RendLists.css";
 
-function RendLists({ Lists, ShowList, AddNewList, RemoveList, BayItem }) {
+function RendLists({
+  Lists,
+  ShowList,
+  AddNewList,
+  RemoveList,
+  BayItem,
+  setshowBsList,
+}) {
   let ListOfList = Lists.map((list, index) => {
-    let liPrevivs = list.mas_elements.map((elem, index) => {
-      return (
-        <li
-          key={index}
-          className="liPrevivs"
-          style={
-            elem.bay_state
-              ? {
-                  textDecoration: "line-through",
-                  color: "red",
-                  display: "none",
-                }
-              : null
-          }
-        >
-          {elem.ElementName}
-          <input
-            className="form-check-input"
-            type="checkbox"
-            onChange={() => BayItem(list.name, index)}
-            checked={elem.bay_state}
-          />
-        </li>
-      );
-    });
+    let liPrevivs = list.mas_elements
+      .sort((a, b) => {
+        console.log(a);
+        if (a.ElementName > b.ElementName) {
+          return 1;
+        }
+        if (a.ElementName < b.ElementName) {
+          return -1;
+        }
+        return 0;
+      })
+      .map((elem, index) => {
+        return (
+          <li
+            key={index}
+            className="liPrevivs"
+            style={
+              elem.bay_state
+                ? {
+                    textDecoration: "line-through",
+                    color: "red",
+                    display: "none",
+                  }
+                : null
+            }
+          >
+            {elem.ElementName}
+            <input
+              className="form-check-input"
+              type="checkbox"
+              onChange={() => BayItem(list.name, index)}
+              checked={elem.bay_state}
+            />
+          </li>
+        );
+      });
     if (list.name !== "baseList") {
       return (
         <li className="ListsLi" key={index}>
@@ -62,7 +80,7 @@ function RendLists({ Lists, ShowList, AddNewList, RemoveList, BayItem }) {
       <button
         type="button"
         className="btn m-2 btn-outline-light"
-        onClick={() => ShowList("baseList")}
+        onClick={() => setshowBsList(true)}
       >
         Редактировать список выбора
       </button>
@@ -81,6 +99,11 @@ function RendLists({ Lists, ShowList, AddNewList, RemoveList, BayItem }) {
 
 RendLists.propTypes = {
   Lists: PropTypes.array,
+  ShowList: PropTypes.func,
+  AddNewList: PropTypes.func,
+  RemoveList: PropTypes.func,
+  BayItem: PropTypes.func,
+  setshowBsList: PropTypes.func,
 };
 
 export default RendLists;
