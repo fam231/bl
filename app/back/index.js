@@ -129,6 +129,8 @@ app.get("/lists", async (req, res) => {
   // };
   //////////
   let lists = await getAllList();
+  console.log("lists: ");
+  console.log(lists);
   res.json(lists);
 });
 app.post("/savelist", (req, res) => {
