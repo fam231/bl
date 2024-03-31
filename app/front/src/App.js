@@ -79,21 +79,21 @@ function App() {
     });
 
     if (response.ok) {
-      console.log("response: ", response);
+      // console.log("response: ", response);
       // если HTTP-статус в диапазоне 200-299
       // получаем тело ответа (см. про этот метод ниже)
       let json = await response.json();
-      console.log("json: ", json);
+      // console.log("json: ", json);
       // alert("Отправил")
       // let lists = Lists;
       // lists.push({ name: NameList, mas_elements: masList });
-      // if (json.allList) {
-      //   setLists(json.allList);
-      //   setWorkList(false);
-      // } else {
-      //   setLists([]);
-      //   console.log(json.state);
-      // }
+      if (json.allList) {
+        setLists(json.allList);
+        setWorkList(false);
+      } else {
+        setLists([]);
+        console.log(json.state);
+      }
 
       // getLists();
     } else {

@@ -188,8 +188,8 @@ app.post("/savelist", (req, res) => {
     await connection
       .query(sql, [newList])
       .then((SQLres) => {
-        console.log("SQLres");
-        console.log(SQLres);
+        // console.log("SQLres");
+        // console.log(SQLres);
         SQLState = true;
       })
       .catch((err) => {
