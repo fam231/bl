@@ -56,7 +56,45 @@ async function removelist(listname) {
     });
 }
 
-app.get("/lists", (req, res) => {
+async function getAllList(params) {
+  let lists = { baseList: [], allList: [] };
+  let sqlReq = "SELECT * FROM lists ";
+  connection
+    .query(sqlReq)
+    .then((result) => {
+      result[0].forEach((element) => {
+        if (element.listName === "baseList") {
+          lists.baseList.push(element.item);
+        } else {
+          let index_list = lists.allList.findIndex(
+            (item) => item.name === element.listName
+          );
+          if (index_list === -1) {
+            // Список не найден в масиве всех листов
+            lists.allList.push({
+              name: element.listName,
+              mas_elements: [
+                { ElementName: element.item, bay_state: element.state },
+              ],
+            });
+          } else {
+            //Индекс списка найден добавляем строку списка в массив строк.
+            lists.allList[index_list].mas_elements.push({
+              ElementName: element.item,
+              bay_state: element.state,
+            });
+          }
+        }
+        // }
+      });
+      return lists;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+app.get("/lists", async (req, res) => {
   ////////// Возвращает JSON строку вида:
   // {
   //   baseList: ["Апельсин", "Мандарин", bay_state: false },
@@ -90,41 +128,8 @@ app.get("/lists", (req, res) => {
   //   ],
   // };
   //////////
-  let lists = { baseList: [], allList: [] };
-  let sqlReq = "SELECT * FROM lists ";
-  connection
-    .query(sqlReq)
-    .then((result) => {
-      result[0].forEach((element) => {
-        if (element.listName === "baseList") {
-          lists.baseList.push(element.item);
-        } else {
-          let index_list = lists.allList.findIndex(
-            (item) => item.name === element.listName
-          );
-          if (index_list === -1) {
-            // Список не найден в масиве всех листов
-            lists.allList.push({
-              name: element.listName,
-              mas_elements: [
-                { ElementName: element.item, bay_state: element.state },
-              ],
-            });
-          } else {
-            //Индекс списка найден добавляем строку списка в массив строк.
-            lists.allList[index_list].mas_elements.push({
-              ElementName: element.item,
-              bay_state: element.state,
-            });
-          }
-        }
-        // }
-      });
-      res.json(lists);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  let lists = await getAllList();
+  res.json(lists);
 });
 app.post("/savelist", (req, res) => {
   ////////// Ждем JSON в формате:
@@ -180,17 +185,25 @@ app.post("/savelist", (req, res) => {
     }
 
     const sql = `INSERT INTO lists (listName,item,state) VALUES ${newList}`;
-
-    connection
+    let SQLState = false;
+    await connection
       .query(sql, [newList])
-      .then((res) => {
-        console.log(res);
+      .then((SQLres) => {
+        console.log("SQLres");
+        console.log(SQLres);
+        SQLState = true;
       })
       .catch((err) => {
         console.log(err);
       });
 
-    res.json("ok");
+    if (SQLState) {
+      let lists = await getAllList();
+      res.json(lists);
+    } else {
+      let lists = { state: "Ошибка при записи SQL" };
+      res.json(lists);
+    }
   });
 });
 

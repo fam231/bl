@@ -81,13 +81,19 @@ function App() {
     if (response.ok) {
       // если HTTP-статус в диапазоне 200-299
       // получаем тело ответа (см. про этот метод ниже)
-      // let json = await response.json();
+      let json = await response.json();
       // alert("Отправил")
       // let lists = Lists;
       // lists.push({ name: NameList, mas_elements: masList });
-      // setLists(lists);
-      setWorkList(false);
-      getLists();
+      if (json.allList) {
+        setLists(json.allList);
+        setWorkList(false);
+      } else {
+        setLists([]);
+        console.log(json.state);
+      }
+
+      // getLists();
     } else {
       alert("Ошибка HTTP: " + response.status);
     }
