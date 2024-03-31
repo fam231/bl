@@ -56,7 +56,7 @@ async function removelist(listname) {
     });
 }
 
-async function getAllList(params) {
+async function getAllList(res) {
   let lists = { baseList: [], allList: [] };
   let sqlReq = "SELECT * FROM lists ";
   connection
@@ -87,7 +87,7 @@ async function getAllList(params) {
         }
         // }
       });
-      return lists;
+      res.json(lists);
     })
     .catch((err) => {
       console.log(err);
@@ -128,10 +128,7 @@ app.get("/lists", async (req, res) => {
   //   ],
   // };
   //////////
-  let lists = await getAllList();
-  console.log("lists: ");
-  console.log(lists);
-  res.json(lists);
+  await getAllList(res);
 });
 app.post("/savelist", (req, res) => {
   ////////// Ждем JSON в формате:
@@ -200,8 +197,7 @@ app.post("/savelist", (req, res) => {
       });
 
     if (SQLState) {
-      let lists = await getAllList();
-      res.json(lists);
+      await getAllList(res);
     } else {
       let lists = { state: "Ошибка при записи SQL" };
       res.json(lists);
